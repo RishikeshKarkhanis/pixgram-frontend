@@ -1,5 +1,7 @@
 import "./Register.css";
 import { useRef, useState } from "react";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../firebase.js";
 
 
 function Register () {
@@ -8,13 +10,13 @@ function Register () {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [profiePic, setProfilePic] = useState(
-        "https://firebasestorage.googleapis.com/v0/b/pixgram-63c5a.firebasestorage.app/o/User%2FProfilePictures%2FDefault%2Fdefault.webp?alt=media&token=c435ef5a-7cba-4635-a800-40a1d157e741"
+        "https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/User%2FProfilePictures%2FDefault%2Fdefault.webp?alt=media&token=fae64a84-57b3-4637-990f-349dd6d91207"
     );
     const [error, setError] = useState("");
 
     const fileInputRef = useRef(null);
     const [imageSrc, setImageSrc] = useState(
-    "https://firebasestorage.googleapis.com/v0/b/pixgram-63c5a.firebasestorage.app/o/User%2FProfilePictures%2FDefault%2Fdefault.webp?alt=media&token=c435ef5a-7cba-4635-a800-40a1d157e741"
+    "https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/User%2FProfilePictures%2FDefault%2Fdefault.webp?alt=media&token=fae64a84-57b3-4637-990f-349dd6d91207"
   );
 
     const handleImageUpload = () => {
@@ -27,15 +29,24 @@ function Register () {
         
         console.log("Selected file:", file);
 
-        setImageSrc(URL.createObjectURL(file));
+        const storageRef = ref(storage, `User/ProfilePictures/${username}/${file.name}`);
+
+        await uploadBytes(storageRef, file);
+
+        const url = await getDownloadURL(storageRef);
+
+        setImageSrc(url);
     };
 
     async function handleSubmit() {
+
+        setProfilePic(imageSrc);
+
         const jsonData = {
             username: username,
             email: email,
             password: password,
-            profilePicture: profiePic
+            profilePicture: imageSrc
         };
         
         const response = await fetch('users/register', {
