@@ -1,0 +1,77 @@
+.navbar {
+    margin-top: -35px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .left {
+    /* background-color: turquoise; */
+    margin-left:10px;
+}
+
+.navbar .left .title h1 {
+    font-size: 42px;
+    margin-bottom: 5px;
+}
+
+.navbar .right {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-direction: column;
+    margin-right: 10px;
+    width: 100%;
+    /* background-color: aqua; */
+    padding-bottom: 10px;
+}
+
+.navbar .right .profile-picture {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 45px;
+    cursor: pointer;
+}
+
+.profile {
+    /* background-color: aqua; */
+}
+
+.dropdown {
+    position: absolute;
+    margin-top: 10px;
+    right: 2px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    top: 75px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    display: none;
+}
+
+.dropdown ul {
+    text-decoration: none;
+    list-style:none;
+}
+
+.dropdown ul li {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.dropdown ul li a {
+    text-decoration: none;
+    list-style:none;
+    color: black;
+    font-size: 21px;
+    /* background-color: aqua; */
+}
+
+.dropdown ul li :hover {
+    color: green;
+}
