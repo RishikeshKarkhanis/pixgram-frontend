@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 function Home () {
 
     const [user, setUser] = useState('');
+    const [profilePicture, setProfilePicture] = useState('');
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -17,18 +18,21 @@ function Home () {
 
             setUser(json);
             console.log(json);
-            console.log(response);
+            if (json._doc && json._doc.profilePicture) {
+                setProfilePicture(json._doc.profilePicture);
+            } else {
+                setProfilePicture('default-profile-picture-url'); // Set a default picture if none exists
+            }
+            console.log("Profile Picture:", json._doc.profilePicture);
         }
 
         fetchUserData();
     }, []);
-    
-
 
     return (
         <>
             <h1>{user ? `Hello, ${user._doc.username}` : 'Loading...'}</h1>
-            <img alt="dp" srcset={`${user._doc.profilePicture}`} />
+            <img srcset={profilePicture} />
         </>
     );
 }
