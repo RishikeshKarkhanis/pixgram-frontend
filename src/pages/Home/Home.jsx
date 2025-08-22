@@ -28,6 +28,7 @@ function Home () {
     return (
         <>
             <h1>{user ? `Hello, ${user._doc.username}` : 'Loading...'}</h1>
+            <img alt="dp" srcset={`${user._doc.profilePicture}`} />
         </>
     );
 }

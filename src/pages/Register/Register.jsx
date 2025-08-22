@@ -4,7 +4,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase.js";
 
 
-function Register () {
+function Register() {
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -16,8 +16,8 @@ function Register () {
 
     const fileInputRef = useRef(null);
     const [imageSrc, setImageSrc] = useState(
-    "https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/User%2FProfilePictures%2FDefault%2Fdefault.webp?alt=media&token=fae64a84-57b3-4637-990f-349dd6d91207"
-  );
+        "https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/User%2FProfilePictures%2FDefault%2Fdefault.webp?alt=media&token=fae64a84-57b3-4637-990f-349dd6d91207"
+    );
 
     const handleImageUpload = () => {
         fileInputRef.current.click();
@@ -26,7 +26,7 @@ function Register () {
     const handleFileChange = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
-        
+
         console.log("Selected file:", file);
 
         const storageRef = ref(storage, `User/ProfilePictures/${username}/${file.name}`);
@@ -48,7 +48,7 @@ function Register () {
             password: password,
             profilePicture: imageSrc
         };
-        
+
         const response = await fetch('users/register', {
             method: "POST",
             body: JSON.stringify(jsonData),
@@ -62,7 +62,7 @@ function Register () {
         if (!response.ok) {
             setError('User Already Exists!')
         }
-        
+
     }
 
     return (
@@ -76,9 +76,9 @@ function Register () {
                     <div className="registerForm">
                         <h2>Register</h2>
                         <img className="image" srcSet={imageSrc} onClick={handleImageUpload} />
-                        <input type="text" placeholder="Username" required onChange={(e) => { setUsername(e.target.value); }}/>
-                        <input type="email" placeholder="Email" required onChange={(e) => { setEmail(e.target.value); }}/>
-                        <input type="password" placeholder="Password" required onChange={(e) => { setPassword(e.target.value); }}/>
+                        <input type="text" placeholder="Username" required onChange={(e) => { setUsername(e.target.value); }} />
+                        <input type="email" placeholder="Email" required onChange={(e) => { setEmail(e.target.value); }} />
+                        <input type="password" placeholder="Password" required onChange={(e) => { setPassword(e.target.value); }} />
                         <button onClick={handleSubmit}>Register</button>
                     </div>
 
@@ -89,11 +89,11 @@ function Register () {
                     <div className="hiddenFile">
                         <input
                             type="file"
-                            id="file" 
-                            accept="image/*" 
-                            onChange={handleFileChange} 
-                            ref={fileInputRef} 
-                            style={{display:"none"}} 
+                            id="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            ref={fileInputRef}
+                            style={{ display: "none" }}
                         />
                     </div>
                     <div className="loginSwitch">
