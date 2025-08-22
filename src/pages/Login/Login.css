@@ -117,6 +117,16 @@
     font-size: 72px;
 }
 
+.error {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+    font-size: 15px;
+    /* background-color: aquamarine; */
+    width: 90%;
+    margin-bottom: 10px;
+}
+
 @media screen and (max-width: 820px) {
 
     .loginPanel {
