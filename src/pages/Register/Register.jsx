@@ -8,13 +8,13 @@ function Register () {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [profiePic, setProfilePic] = useState(
-        "https://storage.cloud.google.com/pixgram/User/ProfilePictures/default/default.webp"
+        "https://firebasestorage.googleapis.com/v0/b/pixgram-63c5a.firebasestorage.app/o/User%2FProfilePictures%2FDefault%2Fdefault.webp?alt=media&token=c435ef5a-7cba-4635-a800-40a1d157e741"
     );
     const [error, setError] = useState("");
 
     const fileInputRef = useRef(null);
     const [imageSrc, setImageSrc] = useState(
-    "https://storage.cloud.google.com/pixgram/User/ProfilePictures/default/default.webp"
+    "https://firebasestorage.googleapis.com/v0/b/pixgram-63c5a.firebasestorage.app/o/User%2FProfilePictures%2FDefault%2Fdefault.webp?alt=media&token=c435ef5a-7cba-4635-a800-40a1d157e741"
   );
 
     const handleImageUpload = () => {
