@@ -3,6 +3,7 @@ import Home from './pages/Home/Home.jsx';
 import Login from './pages/Login/Login.jsx';
 import Register from './pages/Register/Register.jsx';
 import Logout from "./pages/Logout/Logout.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
 import './App.css';
 
 
@@ -14,6 +15,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/" element={<Home />} />
       <Route path="/logout" element={<Logout />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="*" element={<h1>404 Not Found</h1>} />
     </Routes>
   );

@@ -19,12 +19,12 @@ function Home () {
 
             setUser(json);
             console.log(json);
-            if (json._doc && json._doc.profilePicture) {
-                setProfilePicture(json._doc.profilePicture);
+            if (json && json.profilePicture) {
+                setProfilePicture(json.profilePicture);
             } else {
                 setProfilePicture('default-profile-picture-url'); // Set a default picture if none exists
             }
-            console.log("Profile Picture:", json._doc.profilePicture);
+            console.log("Profile Picture:", json.profilePicture);
         }
 
         fetchUserData();

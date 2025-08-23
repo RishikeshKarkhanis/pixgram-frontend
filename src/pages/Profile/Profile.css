@@ -1,0 +1,121 @@
+.rootContainer{
+    height: 100vh;
+    width: 100vw;
+    /* background-color: aqua; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profilePanel {
+    /* background-color: aquamarine; */
+    box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 90%;
+    border-radius: 5px;
+}
+
+.profilePanel .top {
+    margin-left: 10px;
+}
+
+.profilePanel .top a {
+    /* background-color: tomato; */
+    font-size: 28px;
+    text-decoration: none;
+    color: black;
+}
+
+.profilePanel .top a:hover {
+    color: #28a745;
+}
+
+.profilePanel .main {
+    display: flex;
+    flex-direction: row;
+}
+
+.profilePanel .main .left .dp {
+    max-height: 250px;
+    max-width: 250px;
+    border-radius: 360px;
+    margin-left: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.profilePanel .main .left {
+    /* background-color: rgb(240, 240, 240); */
+    width: 30%;
+    text-align: center;
+}
+
+.profilePanel .main .right {
+    /* background-color: rgb(250, 250, 250); */
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.profilePanel .main .right .entries {
+    padding-top: 0px;
+    /* background-color: beige; */
+    text-align: center;
+}
+
+.profilePanel .main .right .entries .entry {
+    margin-bottom: 10px;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    /* background-color: #28a745; */
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.profilePanel .main .right .entries .entry label{
+    width: 30%;
+    font-size: 21px;
+}
+
+.profilePanel .main .right .entries .entry #readonly {
+    color: #ccc;
+}
+
+.profilePanel .main .right .entries .entry input {
+    width: 70%;
+    font-size: 21px;
+    border: 1px solid #ccc;
+    text-align: center;
+    border-radius: 5px;   
+}
+
+.profilePanel .main .right .entries .entry input:focus {
+    border-color: #28a745;
+    outline: none;
+}
+
+.profilePanel .main .right .buttonPanel {
+    /* background-color: #ccc; */
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding-left: 10px;
+    gap: 10px;
+    padding-right: 10px;
+}
+
+.profilePanel .main .right .buttonPanel button {
+    height: 50%;
+    width: 100%;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+}
