@@ -13,6 +13,7 @@ function Register() {
         "https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/User%2FProfilePictures%2FDefault%2Fdefault.webp?alt=media&token=fae64a84-57b3-4637-990f-349dd6d91207"
     );
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const fileInputRef = useRef(null);
     const [imageSrc, setImageSrc] = useState(
@@ -20,22 +21,30 @@ function Register() {
     );
 
     const handleImageUpload = () => {
-        fileInputRef.current.click();
+        if(username == "") alert("Please Set Username Before Uploading Profile Picture!");
+        else {
+            fileInputRef.current.click();
+        }
+        
     };
 
     const handleFileChange = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
 
-        console.log("Selected file:", file);
 
+        console.log("Selected file:", file);
+        setLoading(true);
         const storageRef = ref(storage, `User/ProfilePictures/${username}/${username}`);
 
         await uploadBytes(storageRef, file);
 
         const url = await getDownloadURL(storageRef);
-
         setImageSrc(url);
+        setLoading(false);
+
+
+
     };
 
     async function handleSubmit() {
@@ -75,7 +84,7 @@ function Register() {
                     </div>
                     <div className="registerForm">
                         <h2>Register</h2>
-                        <img className="image" srcSet={imageSrc} onClick={handleImageUpload} />
+                        <button className="image" style={{ backgroundImage: "url(" + `${imageSrc}` + ")" }} onClick={handleImageUpload}>{loading ? "Uploading..." : ""}</button>
                         <input type="text" placeholder="Username" required onChange={(e) => { setUsername(e.target.value); }} />
                         <input type="email" placeholder="Email" required onChange={(e) => { setEmail(e.target.value); }} />
                         <input type="password" placeholder="Password" required onChange={(e) => { setPassword(e.target.value); }} />

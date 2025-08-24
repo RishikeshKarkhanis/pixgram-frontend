@@ -40,12 +40,11 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: 0%;
+    background-position: center;
     margin-top: 10px;
     border: none;
-    
     font-size: 18px;
-    color: white;
+    color: rgb(255,255,255,0.5);
     height: 250px;
     width: 250px;
 }
@@ -55,6 +54,7 @@
     text-align: center;
     width: 30%;
     margin-right: 10px;
+    margin-bottom: 30px;
 }
 
 .profilePanel .main .right {
@@ -118,7 +118,7 @@
 }
 
 .profilePanel .main .right .buttonPanel button {
-    height: 25px;
+    height: 30px;
     width: 100%;
     border: none;
     font-size: 18px;
