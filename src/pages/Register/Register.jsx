@@ -29,7 +29,7 @@ function Register() {
 
         console.log("Selected file:", file);
 
-        const storageRef = ref(storage, `User/ProfilePictures/${username}/${file.name}`);
+        const storageRef = ref(storage, `User/ProfilePictures/${username}/${username}`);
 
         await uploadBytes(storageRef, file);
 

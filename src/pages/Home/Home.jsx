@@ -57,7 +57,7 @@ function Home () {
                         <img src={profilePicture} alt="Profile" onClick={handleProfileClick} className="profile-picture" />
                         <div className="dropdown">
                             <ul>
-                                <li><a href="/profile">Profile</a></li>
+                                <li><a href="/edit">Profile</a></li>
                                 <li><a style={{color:"red", cursor:"pointer"}} href="/logout">Logout</a></li>
                             </ul>
                         </div>
