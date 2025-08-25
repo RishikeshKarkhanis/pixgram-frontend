@@ -5,7 +5,7 @@ function Home () {
 
     const [user, setUser] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
-    const [isDropActive, setIsDropActive] = useState(false);
+    const [isPDropActive, setIsPDropActive] = useState(false);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -33,12 +33,12 @@ function Home () {
     const handleProfileClick = () =>  {
         const dropdown = document.querySelector('.dropdown');
 
-        if(isDropActive === true) {
-            setIsDropActive(false);
+        if(isPDropActive === true) {
+            setIsPDropActive(false);
             dropdown.style.display = 'none';
         }
-        if(isDropActive === false) {
-            setIsDropActive(true);
+        if(isPDropActive === false) {
+            setIsPDropActive(true);
             dropdown.style.display = 'flex';
         }
     }
