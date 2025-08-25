@@ -1,12 +1,14 @@
 .navbar {
-    /* margin-top: -35px; */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: space-between;
-    /* background-color: antiquewhite; */
+    background-color: white;
     vertical-align: middle;
     align-items: center;
     padding: 0px 0px 0px 0px;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
 }
 
 .navbar .left {
@@ -32,7 +34,7 @@
     display: flex;
     justify-content: flex-end;
     width: 100%;
-    background-color: aqua;
+    /* background-color: aqua; */
     padding-top: 5px;
     margin-right: 10px;
 }
@@ -85,4 +87,25 @@
 
 .dropdown ul li :hover {
     color: #28a745;
+}
+
+.contentPane {
+    background-color: rgb(244, 242, 238);
+    height: 100vh;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.contentPane .post {
+    background-color: white;
+    width: 90%;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
 }

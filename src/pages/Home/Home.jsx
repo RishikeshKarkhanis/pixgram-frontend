@@ -1,9 +1,10 @@
 import "./Home.css";
 import { useEffect, useState } from 'react';
 
-function Home () {
+function Home() {
 
     const [user, setUser] = useState('');
+    const [post, setPost] = useState(null);
     const [profilePicture, setProfilePicture] = useState(null);
     const [isPDropActive, setIsPDropActive] = useState(false);
 
@@ -30,14 +31,38 @@ function Home () {
         fetchUserData();
     }, []);
 
-    const handleProfileClick = () =>  {
+    //Fetch Posts Of People User Follows
+
+    useEffect(() => {
+        const fetchPostsData = async () => {
+            if (!user || !user._id) return; // guard
+
+            console.log("user id in fetchPostsData:", user._id);
+            
+            const response = await fetch("/posts/feed/" + user._id);
+
+            const json = await response.json();
+
+            if (!response.ok) {
+                alert("Error Fetching Posts");
+                console.log(response);
+            }
+
+            setPost(json);
+            console.log("Posts Data:", json);
+        }
+
+        fetchPostsData();
+    }, [user]);
+
+    const handleProfileClick = () => {
         const dropdown = document.querySelector('.dropdown');
 
-        if(isPDropActive === true) {
+        if (isPDropActive === true) {
             setIsPDropActive(false);
             dropdown.style.display = 'none';
         }
-        if(isPDropActive === false) {
+        if (isPDropActive === false) {
             setIsPDropActive(true);
             dropdown.style.display = 'flex';
         }
@@ -58,12 +83,29 @@ function Home () {
                         <div className="dropdown">
                             <ul>
                                 <li><a href="/edit">Profile</a></li>
-                                <li><a style={{color:"red", cursor:"pointer"}} href="/logout">Logout</a></li>
+                                <li><a style={{ color: "red", cursor: "pointer" }} href="/logout">Logout</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </nav>
+
+            <div className="contentPane">
+                {post && post.length > 0 ? (
+                    post.map((p) => (
+                        <div key={p._id} className="post">
+                            <div className="postedBy">
+                                <h6>{p.postedBy}</h6>
+                            </div>
+                            <div className="imageContainer">
+                                {/* <img src={p.imageUrl} alt="Post" className="post-image" /> */}
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p>No posts available.</p>                        
+                )}
+            </div>
         </>
     );
 }
