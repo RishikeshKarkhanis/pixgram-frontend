@@ -1,27 +1,39 @@
 .navbar {
-    margin-top: -35px;
+    /* margin-top: -35px; */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: space-between;
+    /* background-color: antiquewhite; */
+    vertical-align: middle;
     align-items: center;
+    padding: 0px 0px 0px 0px;
 }
 
 .navbar .left {
     /* background-color: turquoise; */
     margin-left:10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.navbar .left .title {
+    margin-top: -0px;
+    background:none;
+    border: none;
 }
 
 .navbar .left .title h1 {
     font-size: 42px;
-    margin-bottom: 5px;
 }
 
 .navbar .right {
     display: flex;
     justify-content: flex-end;
     width: 100%;
-    /* background-color: aqua; */
-    padding-bottom: 10px;
+    background-color: aqua;
+    padding-top: 5px;
     margin-right: 10px;
 }
 
@@ -30,7 +42,6 @@
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    margin-top: 45px;
     cursor: pointer;
     margin-left: 10px;
 }

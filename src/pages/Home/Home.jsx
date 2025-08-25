@@ -45,12 +45,12 @@ function Home () {
 
     return (
         <>
-            <div className="navbar">
+            <nav className="navbar">
                 <div className="left">
-                    <div className="title">
+                    <button className="title">
                         <h1 className="pix">Pix</h1>
                         <h1 className="gram">Gram</h1>
-                    </div>
+                    </button>
                 </div>
                 <div className="right">
                     <div className="profile">
@@ -63,7 +63,7 @@ function Home () {
                         </div>
                     </div>
                 </div>
-            </div>
+            </nav>
         </>
     );
 }
