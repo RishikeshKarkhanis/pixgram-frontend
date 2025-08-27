@@ -38,7 +38,7 @@ function Home() {
             if (!user || !user._id) return; // guard
 
             console.log("user id in fetchPostsData:", user._id);
-            
+
             const response = await fetch("/posts/feed/" + user._id);
 
             const json = await response.json();
@@ -79,7 +79,7 @@ function Home() {
                 </div>
                 <div className="right">
                     <div className="profile">
-                        <img src={profilePicture} alt="Profile" onClick={handleProfileClick} className="profile-picture" />
+                        <img srcSet={profilePicture} alt="Profile" onClick={handleProfileClick} className="profile-picture" />
                         <div className="dropdown">
                             <ul>
                                 <li><a href="/edit">Profile</a></li>
@@ -95,15 +95,42 @@ function Home() {
                     post.map((p) => (
                         <div key={p._id} className="post">
                             <div className="postedBy">
-                                <h6>{p.postedBy}</h6>
+                                <img srcSet={p.postedBy.profilePicture} alt="" />
+                                <h6>{p.postedBy.username}</h6>
                             </div>
                             <div className="imageContainer">
-                                {/* <img src={p.imageUrl} alt="Post" className="post-image" /> */}
+                                <img srcSet={p.imageUrl} alt="Post" className="post-image" />
+                            </div>
+                            <div className="captionContainer">
+                                <p>{p.caption}</p>
+                            </div>
+                            <div className="optionContainer">
+
+                                <div className="likeContainer">
+                                    <button className="like-button">
+                                        <i className="fa-regular fa-heart text-3xl text-red-600"></i>
+                                    </button>
+
+                                    <div className="likeCount">
+                                        <p>{p.likes}</p>
+                                    </div>
+                                </div>
+
+                                <div className="commentContainer">
+                                    <button className="comment-button">
+                                        <i className="fa-regular fa-comment"></i>
+                                    </button>
+
+                                    <div className="commentCount">
+                                        <p>{p.comments}</p>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     ))
                 ) : (
-                    <p>No posts available.</p>                        
+                    <p>No posts available.</p>
                 )}
             </div>
         </>
