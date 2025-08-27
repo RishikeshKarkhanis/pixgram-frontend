@@ -7,6 +7,7 @@ function Home() {
     const [post, setPost] = useState(null);
     const [profilePicture, setProfilePicture] = useState(null);
     const [isPDropActive, setIsPDropActive] = useState(false);
+    const [comment, setComment] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -97,14 +98,14 @@ function Home() {
             )
         );
 
-        if(json.liked === true){
+        if (json.liked === true) {
             heartLogo.style.display = "block";
             setTimeout(() => {
                 heartLogo.style.display = "none";
             }, 800);
         }
 
-        if(json.liked === false){
+        if (json.liked === false) {
             heartCrackLogo.style.display = "block";
             setTimeout(() => {
                 heartCrackLogo.style.display = "none";
@@ -112,6 +113,19 @@ function Home() {
         }
 
         return json.liked;
+    }
+
+    const handleCommentClick = async (postId) => {
+        const comments = await fetch('/comments/' + postId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const json = await comments.json();
+        setComment(json);
+        document.querySelector(".commentsPane").style.display = "block";
+        console.log("Comments Data:", json);
     }
 
     return (
@@ -126,17 +140,17 @@ function Home() {
                 <div className="right">
                     <div className="profile">
 
-                        <img srcSet={profilePicture} 
-                            alt="Profile" onClick={handleProfileClick} 
+                        <img srcSet={profilePicture}
+                            alt="Profile" onClick={handleProfileClick}
                             className="profile-picture" />
 
                         <div className="dropdown">
                             <ul>
                                 <li><a href="/edit">Profile</a></li>
                                 <li>
-                                    <a style={{ color: "red", cursor: "pointer" }} 
+                                    <a style={{ color: "red", cursor: "pointer" }}
                                         href="/logout">
-                                            Logout
+                                        Logout
                                     </a>
                                 </li>
                             </ul>
@@ -145,6 +159,33 @@ function Home() {
                     </div>
                 </div>
             </nav>
+
+            <div className="commentsPane" style={{ display: "none" }}>
+
+                {/* <button onClick={() => document.querySelector(".commentsPane").style.display="none"}>Back</button>                 */}
+
+                <div className="window">
+                    <div className="dialog">
+                        <div className="head">
+                            <h3>Comments</h3>
+                            <button onClick={() => document.querySelector(".commentsPane").style.display = "none"}>
+                                <i className="fa-solid fa-xmark fa-2x"></i>
+                            </button>
+                        </div>
+                        <div className="body">
+                            {comment && comment.length > 0 ? (
+                                comment.map((c) => (
+                                    <div key={c._id} className="comment">
+                                        <p>{c.content}</p>
+                                    </div>
+                                ))
+                            ) : (
+                                <p>No comments available.</p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div className="contentPane">
                 {post && post.length > 0 ? (
@@ -159,16 +200,16 @@ function Home() {
                                     style={{ backgroundImage: `url(${p.imageUrl}` }}
                                     alt="Post" className="post-image">
 
-                                        <i id={"heart-logo-"+p._id}
-                                            className="fa-solid fa-heart fa-5x"
-                                            style={{color:"white", display:"none"}}>
-                                        </i>
+                                    <i id={"heart-logo-" + p._id}
+                                        className="fa-solid fa-heart fa-5x"
+                                        style={{ color: "white", display: "none" }}>
+                                    </i>
 
-                                        <i id={"heart-logo-crack-"+p._id}
-                                            className="fa-solid fa-heart-crack fa-5x"
-                                            style={{color:"white", display:"none"}}>
-                                        </i>
-                                        
+                                    <i id={"heart-logo-crack-" + p._id}
+                                        className="fa-solid fa-heart-crack fa-5x"
+                                        style={{ color: "white", display: "none" }}>
+                                    </i>
+
                                 </div>
                             </div>
                             <div className="captionContainer">
@@ -177,12 +218,12 @@ function Home() {
                             <div className="optionContainer">
 
                                 <div className="likeContainer">
-                                    <button id={"like-"+p._id}
+                                    <button id={"like-" + p._id}
                                         className="like-button" onClick={() => handleLikeClick(p._id)}>
                                         {p.hasLiked ? (
-                                            <i className="fa-solid fa-heart" style={{color:"red"}}></i>
+                                            <i className="fa-solid fa-heart" style={{ color: "red" }}></i>
                                         ) : (
-                                            <i className="fa-regular fa-heart" style={{color:"red"}}></i>
+                                            <i className="fa-regular fa-heart" style={{ color: "red" }}></i>
                                         )}
                                     </button>
 
@@ -192,7 +233,7 @@ function Home() {
                                 </div>
 
                                 <div className="commentContainer">
-                                    <button className="comment-button">
+                                    <button className="comment-button" onClick={() => handleCommentClick(p._id)}>
                                         <i className="fa-regular fa-comment"></i>
                                     </button>
 
