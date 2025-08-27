@@ -69,7 +69,8 @@ function Home() {
     }
 
     const handleLikeClick = async (postId) => {
-        const likeButton = document.querySelector(`.like-button`);
+        const heartLogo = document.querySelector(`#heart-logo-${postId}`);
+        const heartCrackLogo = document.querySelector(`#heart-logo-crack-${postId}`);
 
         const reqObj = { userId: user._id, postId: postId };
 
@@ -83,11 +84,31 @@ function Home() {
 
         const json = await data.json();
 
-        if (json.liked) {
-            likeButton.innerHTML = `<i class="fa-solid fa-heart text-3xl text-red-600"></i>`;
+        // update UI immediately
+        setPost((prevPosts) =>
+            prevPosts.map((p) =>
+                p._id === postId
+                    ? {
+                        ...p,
+                        hasLiked: !p.hasLiked,
+                        likes: p.hasLiked ? p.likes - 1 : p.likes + 1,
+                    }
+                    : p
+            )
+        );
+
+        if(json.liked === true){
+            heartLogo.style.display = "block";
+            setTimeout(() => {
+                heartLogo.style.display = "none";
+            }, 800);
         }
-        else {
-            likeButton.innerHTML = `<i class="fa-regular fa-heart text-3xl text-red-600"></i>`;
+
+        if(json.liked === false){
+            heartCrackLogo.style.display = "block";
+            setTimeout(() => {
+                heartCrackLogo.style.display = "none";
+            }, 800);
         }
 
         return json.liked;
@@ -104,13 +125,23 @@ function Home() {
                 </div>
                 <div className="right">
                     <div className="profile">
-                        <img srcSet={profilePicture} alt="Profile" onClick={handleProfileClick} className="profile-picture" />
+
+                        <img srcSet={profilePicture} 
+                            alt="Profile" onClick={handleProfileClick} 
+                            className="profile-picture" />
+
                         <div className="dropdown">
                             <ul>
                                 <li><a href="/edit">Profile</a></li>
-                                <li><a style={{ color: "red", cursor: "pointer" }} href="/logout">Logout</a></li>
+                                <li>
+                                    <a style={{ color: "red", cursor: "pointer" }} 
+                                        href="/logout">
+                                            Logout
+                                    </a>
+                                </li>
                             </ul>
                         </div>
+
                     </div>
                 </div>
             </nav>
@@ -124,7 +155,21 @@ function Home() {
                                 <h6>{p.postedBy.username}</h6>
                             </div>
                             <div className="imageContainer">
-                                <div style={{ backgroundImage: `url(${p.imageUrl}` }} alt="Post" className="post-image" />
+                                <div onDoubleClick={() => handleLikeClick(p._id)}
+                                    style={{ backgroundImage: `url(${p.imageUrl}` }}
+                                    alt="Post" className="post-image">
+
+                                        <i id={"heart-logo-"+p._id}
+                                            className="fa-solid fa-heart fa-5x"
+                                            style={{color:"white", display:"none"}}>
+                                        </i>
+
+                                        <i id={"heart-logo-crack-"+p._id}
+                                            className="fa-solid fa-heart-crack fa-5x"
+                                            style={{color:"white", display:"none"}}>
+                                        </i>
+                                        
+                                </div>
                             </div>
                             <div className="captionContainer">
                                 <p>{p.caption}</p>
@@ -132,11 +177,12 @@ function Home() {
                             <div className="optionContainer">
 
                                 <div className="likeContainer">
-                                    <button className="like-button" onClick={() => handleLikeClick(p._id)}>
+                                    <button id={"like-"+p._id}
+                                        className="like-button" onClick={() => handleLikeClick(p._id)}>
                                         {p.hasLiked ? (
-                                            <i className="fa-solid fa-heart text-3xl text-red-600"></i>
+                                            <i className="fa-solid fa-heart" style={{color:"red"}}></i>
                                         ) : (
-                                            <i className="fa-regular fa-heart text-3xl text-red-600"></i>
+                                            <i className="fa-regular fa-heart" style={{color:"red"}}></i>
                                         )}
                                     </button>
 

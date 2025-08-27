@@ -153,6 +153,10 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-clip: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .contentPane .post .captionContainer {
@@ -203,8 +207,15 @@ body {
     font-size: 21px;
 }
 
-@media screen and (min-width: 1020px) {
+
+@media screen and (min-width: 500px) {
     .contentPane .post {
         width: 75%;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .contentPane .post {
+        width: 50%;
     }
 }
