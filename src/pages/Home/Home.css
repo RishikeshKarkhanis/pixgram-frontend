@@ -144,18 +144,18 @@ body {
 
 .contentPane .post .imageContainer {
     width: 100%;
-    height: 500px;
-    /* background-color: aqua; */
+    aspect-ratio: 1/1;
     border-radius: 0px 0px 5px 5px;
 }
 
-.contentPane .post .imageContainer img {
+.contentPane .post .imageContainer .post-image {
     width: 100%;
+    background-color: white;
     height: 100%;
-    object-fit: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-clip: border-box;
 }
 
 .contentPane .post .captionContainer {
@@ -208,6 +208,6 @@ body {
 
 @media screen and (min-width: 1020px) {
     .contentPane .post {
-        width: 60%;
+        width: 75%;
     }
 }

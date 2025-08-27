@@ -99,7 +99,7 @@ function Home() {
                                 <h6>{p.postedBy.username}</h6>
                             </div>
                             <div className="imageContainer">
-                                <img srcSet={p.imageUrl} alt="Post" className="post-image" />
+                                <div style={{ backgroundImage: `url(${p.imageUrl}` }} alt="Post" className="post-image" />
                             </div>
                             <div className="captionContainer">
                                 <p>{p.caption}</p>
