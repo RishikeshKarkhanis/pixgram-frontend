@@ -6,7 +6,10 @@ export default defineConfig({
   server: {
     proxy: {
       '/users': 'http://localhost:3000',
-      '/posts': 'http://localhost:3000'
+      '/posts': 'http://localhost:3000',
+      '/likes': 'http://localhost:3000',
+      '/comments': 'http://localhost:3000',
+      '/follows': 'http://localhost:3000'
     },
   },
 });

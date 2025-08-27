@@ -68,6 +68,31 @@ function Home() {
         }
     }
 
+    const handleLikeClick = async (postId) => {
+        const likeButton = document.querySelector(`.like-button`);
+
+        const reqObj = { userId: user._id, postId: postId };
+
+        const data = await fetch('/likes/toggle', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reqObj)
+        });
+
+        const json = await data.json();
+
+        if (json.liked) {
+            likeButton.innerHTML = `<i class="fa-solid fa-heart text-3xl text-red-600"></i>`;
+        }
+        else {
+            likeButton.innerHTML = `<i class="fa-regular fa-heart text-3xl text-red-600"></i>`;
+        }
+
+        return json.liked;
+    }
+
     return (
         <>
             <nav className="navbar">
@@ -107,8 +132,12 @@ function Home() {
                             <div className="optionContainer">
 
                                 <div className="likeContainer">
-                                    <button className="like-button">
-                                        <i className="fa-regular fa-heart text-3xl text-red-600"></i>
+                                    <button className="like-button" onClick={() => handleLikeClick(p._id)}>
+                                        {p.hasLiked ? (
+                                            <i className="fa-solid fa-heart text-3xl text-red-600"></i>
+                                        ) : (
+                                            <i className="fa-regular fa-heart text-3xl text-red-600"></i>
+                                        )}
                                     </button>
 
                                     <div className="likeCount">
