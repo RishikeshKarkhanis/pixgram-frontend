@@ -128,6 +128,24 @@ function Home() {
         console.log("Comments Data:", json);
     }
 
+    const handleDeleteComment = async (commentId, postId) => {
+
+        const response = await fetch('/comments/delete/' + commentId, {
+            method: 'DELETE', 
+            headers: {'Content-Type': 'application/json'}, 
+            body: JSON.stringify({postId: postId})}
+        );
+
+        const json = await response.json();
+        if (!response.ok) {
+            alert("Error Deleting Comment");
+            console.log(response);
+        }
+        console.log("Deleted Comment:", json);
+        // Remove the deleted comment from the UI
+        setComment((prevComments) => prevComments.filter((c) => c._id !== commentId));       
+    }   
+
     return (
         <>
             <nav className="navbar">
@@ -162,8 +180,6 @@ function Home() {
 
             <div className="commentsPane" style={{ display: "none" }}>
 
-                {/* <button onClick={() => document.querySelector(".commentsPane").style.display="none"}>Back</button>                 */}
-
                 <div className="window">
                     <div className="dialog">
                         <div className="head">
@@ -176,11 +192,33 @@ function Home() {
                             {comment && comment.length > 0 ? (
                                 comment.map((c) => (
                                     <div key={c._id} className="comment">
-                                        <p>{c.content}</p>
+
+                                        <div className="top">
+                                            <img srcSet={c.userId.profilePicture} alt="" />
+                                            <p style={{ fontWeight: "bold" }}>
+                                                <a href={`/${c.userId.username}`}>
+                                                    {c.userId.username}
+                                                </a>
+                                            </p>
+                                        </div>
+
+                                        <div className="content">
+                                            <p>{c.content}</p>
+
+                                            {c.userId._id === user._id ? (
+                                                <button id={"delete-" + c._id} 
+                                                        className="delete-comment" 
+                                                        style={{ display: "block" }}
+                                                        onClick={() => handleDeleteComment(c._id, c.postId)}>
+                                                    <i className="fa-solid fa-xmark"></i>
+                                                </button>
+                                            ) : null}
+                                        </div>
+
                                     </div>
                                 ))
                             ) : (
-                                <p>No comments available.</p>
+                                <h3>No comments available.</h3>
                             )}
                         </div>
                     </div>
@@ -193,7 +231,7 @@ function Home() {
                         <div key={p._id} className="post">
                             <div className="postedBy">
                                 <img srcSet={p.postedBy.profilePicture} alt="" />
-                                <h6>{p.postedBy.username}</h6>
+                                <h6><a href={`${p.postedBy.username}`}>{p.postedBy.username}</a></h6>
                             </div>
                             <div className="imageContainer">
                                 <div onDoubleClick={() => handleLikeClick(p._id)}
@@ -201,13 +239,11 @@ function Home() {
                                     alt="Post" className="post-image">
 
                                     <i id={"heart-logo-" + p._id}
-                                        className="fa-solid fa-heart fa-5x"
-                                        style={{ color: "white", display: "none" }}>
+                                        className="fa-solid fa-heart fa-5x">
                                     </i>
 
                                     <i id={"heart-logo-crack-" + p._id}
-                                        className="fa-solid fa-heart-crack fa-5x"
-                                        style={{ color: "white", display: "none" }}>
+                                        className="fa-solid fa-heart-crack fa-5x">
                                     </i>
 
                                 </div>
@@ -221,9 +257,9 @@ function Home() {
                                     <button id={"like-" + p._id}
                                         className="like-button" onClick={() => handleLikeClick(p._id)}>
                                         {p.hasLiked ? (
-                                            <i className="fa-solid fa-heart" style={{ color: "red" }}></i>
+                                            <i className="fa-solid fa-heart" style={{ color: "crimson" }}></i>
                                         ) : (
-                                            <i className="fa-regular fa-heart" style={{ color: "red" }}></i>
+                                            <i className="fa-regular fa-heart" style={{ color: "black" }}></i>
                                         )}
                                     </button>
 
