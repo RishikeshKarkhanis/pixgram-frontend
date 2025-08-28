@@ -8,6 +8,7 @@ function Home() {
     const [profilePicture, setProfilePicture] = useState(null);
     const [isPDropActive, setIsPDropActive] = useState(false);
     const [comment, setComment] = useState(null);
+    const [currentPostId, setCurrentPostId] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -126,14 +127,16 @@ function Home() {
         setComment(json);
         document.querySelector(".commentsPane").style.display = "block";
         console.log("Comments Data:", json);
+        setCurrentPostId(postId);
     }
 
     const handleDeleteComment = async (commentId, postId) => {
 
         const response = await fetch('/comments/delete/' + commentId, {
-            method: 'DELETE', 
-            headers: {'Content-Type': 'application/json'}, 
-            body: JSON.stringify({postId: postId})}
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ postId: postId })
+        }
         );
 
         const json = await response.json();
@@ -143,8 +146,35 @@ function Home() {
         }
         console.log("Deleted Comment:", json);
         // Remove the deleted comment from the UI
-        setComment((prevComments) => prevComments.filter((c) => c._id !== commentId));       
-    }   
+        setComment((prevComments) => prevComments.filter((c) => c._id !== commentId));
+    }
+
+    const handlePostComment = async (postId) => {
+        const commentInput = document.getElementById('comment-input');
+        const content = commentInput.value;
+        const reqObj = { userId: user._id, postId: postId, content: content };
+        const response = await fetch('/comments/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(reqObj)
+        });
+        const json = await response.json();
+        if (!response.ok) {
+            alert("Error Posting Comment");
+            console.log(response);
+        }
+        // console.log("Posted Comment:", json);
+
+        const uidjson = json.userId;
+
+        const replacement = {"_id": uidjson, "username": user.username, "profilePicture": user.profilePicture };
+        json.userId = replacement;
+        console.log("After Replacement:", json);
+
+        // Add the new comment to the UI
+        setComment((prevComments) => [json, ...prevComments]);
+        commentInput.value = ''; // Clear the input field
+    }
 
     return (
         <>
@@ -206,20 +236,31 @@ function Home() {
                                             <p>{c.content}</p>
 
                                             {c.userId._id === user._id ? (
-                                                <button id={"delete-" + c._id} 
-                                                        className="delete-comment" 
-                                                        style={{ display: "block" }}
-                                                        onClick={() => handleDeleteComment(c._id, c.postId)}>
+                                                <button id={"delete-" + c._id}
+                                                    className="delete-comment"
+                                                    style={{ display: "block" }}
+                                                    onClick={() => handleDeleteComment(c._id, c.postId)}>
                                                     <i className="fa-solid fa-xmark"></i>
                                                 </button>
                                             ) : null}
                                         </div>
+
+
 
                                     </div>
                                 ))
                             ) : (
                                 <h3>No comments available.</h3>
                             )}
+
+                        </div>
+
+                        <div className="addComment">
+                            <div className="commentField">
+                                <img src={profilePicture} />
+                                <input type="text" name="comment-input" id="comment-input" />
+                                <button onClick={() => handlePostComment(currentPostId)}><i className="fa-solid fa-paper-plane"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
