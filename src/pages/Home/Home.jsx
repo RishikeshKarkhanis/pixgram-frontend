@@ -167,7 +167,7 @@ function Home() {
 
         const uidjson = json.userId;
 
-        const replacement = {"_id": uidjson, "username": user.username, "profilePicture": user.profilePicture };
+        const replacement = { "_id": uidjson, "username": user.username, "profilePicture": user.profilePicture };
         json.userId = replacement;
         console.log("After Replacement:", json);
 
@@ -224,25 +224,28 @@ function Home() {
                                     <div key={c._id} className="comment">
 
                                         <div className="top">
-                                            <img srcSet={c.userId.profilePicture} alt="" />
-                                            <p style={{ fontWeight: "bold" }}>
-                                                <a href={`/${c.userId.username}`}>
-                                                    {c.userId.username}
-                                                </a>
-                                            </p>
+                                            <div className="left">
+                                                <img srcSet={c.userId.profilePicture} alt="" />
+                                                <p style={{ fontWeight: "bold" }}>
+                                                    <a href={`/${c.userId.username}`}>
+                                                        {c.userId.username}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                            <div className="right">
+                                                {c.userId._id === user._id ? (
+                                                    <button id={"delete-" + c._id}
+                                                        className="delete-comment"
+                                                        style={{ display: "block" }}
+                                                        onClick={() => handleDeleteComment(c._id, c.postId)}>
+                                                        <i className="fa-solid fa-xmark"></i>
+                                                    </button>
+                                                ) : null}
+                                            </div>
                                         </div>
 
                                         <div className="content">
                                             <p>{c.content}</p>
-
-                                            {c.userId._id === user._id ? (
-                                                <button id={"delete-" + c._id}
-                                                    className="delete-comment"
-                                                    style={{ display: "block" }}
-                                                    onClick={() => handleDeleteComment(c._id, c.postId)}>
-                                                    <i className="fa-solid fa-xmark"></i>
-                                                </button>
-                                            ) : null}
                                         </div>
 
 

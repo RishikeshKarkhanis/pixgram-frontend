@@ -175,12 +175,27 @@ body {
 .commentsPane .window .dialog .body .comment .top {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     gap: 10px;
     background-color: white;
     margin-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
+}
+
+.commentsPane .window .dialog .body .comment .top .left {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    background-color: white;
+}
+
+.commentsPane .window .dialog .body .comment .top .right button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none;
 }
 
 .commentsPane .window .dialog .body .comment .top p a {
@@ -195,22 +210,10 @@ body {
 }
 
 .commentsPane .window .dialog .body .comment .content {
-    background-color: white;
-    padding-left: 10px;
+    background-color:white;
     font-size: 16px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
 }
 
-.commentsPane .window .dialog .body .comment .content button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: none;
-}
 
 .commentsPane .window .dialog .addComment {
     background-color: white;
