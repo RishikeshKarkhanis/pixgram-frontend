@@ -261,6 +261,10 @@ function Home() {
         }
     }
 
+    const searchBoxActivate = async () => {
+        alert("Search!");
+    }
+
     return (
         <>
             <nav className="navbar">
@@ -382,8 +386,8 @@ function Home() {
                                 </div>
                             </div>
                             <div className="postDetails">
-                                <input type="text" readOnly value={`Post ID : ${newPostId}`} />
-                                <input type="text" onChange={(e) => { setNewPostCaption(e.target.value) }} placeholder="Caption" />
+                                <input type="text" id="newPostId" readOnly value={`Post ID : ${newPostId}`} />
+                                <input type="text" id="newPostCaption" onChange={(e) => { setNewPostCaption(e.target.value) }} placeholder="Caption" />
                             </div>
                             <div className="addButtonPanel">
                                 <button onClick={submitPost}>Upload</button>
@@ -397,8 +401,10 @@ function Home() {
 
                 <div className="sidebar">
                     <ul>
-                        <li> <i class="fa-solid fa-user"></i> Profile</li>
-                        <li><i class="fa-solid fa-magnifying-glass"></i> Explore</li>
+                        <li> <a href="/profile"><i className="fa-solid fa-user"></i> Profile</a></li>
+                        <li onClick={searchBoxActivate}>
+                            <i className="fa-solid fa-magnifying-glass"></i> Explore
+                        </li>
                     </ul>
                 </div>
 
@@ -462,6 +468,7 @@ function Home() {
                         <p>No posts available.</p>
                     )}
                 </div>
+
             </div>
         </>
     );
