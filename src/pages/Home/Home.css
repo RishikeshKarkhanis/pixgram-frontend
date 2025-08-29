@@ -47,6 +47,35 @@ body {
     margin-right: 5px;
 }
 
+.navbar .right .search-navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    /* background-color: #28a745; */
+}
+
+.navbar .right .search-navbar button {
+    height: 50px;
+    width: 50px;
+    border-radius: 360px;
+    border: none;
+    margin-top: -4px;
+    font-size: 21px;
+    background:none;
+    cursor: pointer;
+}
+
+.navbar .right .search-navbar button:hover {
+    color: #28a745;
+}
+
+.navbar .right .profile {
+    /* background-color: #28a745; */
+}
+
+
 .navbar .right .profile-picture {
     width: 50px;
     height: 50px;
@@ -54,6 +83,7 @@ body {
     object-fit: cover;
     cursor: pointer;
     margin-left: 10px;
+    background-color: white;
 }
 
 
@@ -482,6 +512,10 @@ body {
     color: black;
 }
 
+.mainContentDivision .sidebar ul .logout-sidebar a:hover {
+    color: red;
+}
+
 .mainContentDivision .sidebar li:hover {
     color: #28a745; /* LinkedIn blue or your theme */
 }
@@ -489,6 +523,8 @@ body {
 .mainContentDivision .sidebar li a:hover {
     color: #28a745; /* LinkedIn blue or your theme */
 }
+
+
 
 .mainContentDivision .contentPane {
     flex: 1;  /* take remaining space */
@@ -693,6 +729,10 @@ body {
         align-items: center;
     }
 
+    .navbar .right .search-navbar {
+        display: none;
+    }
+
 }
 
 @media screen and (min-width: 820px) {
@@ -717,10 +757,8 @@ body {
         width: 100%;
         margin-top: 60px;
         padding-top: 25px;
-        padding-left: 60px;
         display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
+        align-items: center;
     }
 
 }
@@ -747,10 +785,8 @@ body {
         width: 100%;
         margin-top: 60px;
         padding-top: 25px;
-        padding-left: 140px;
         display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
+        align-items: center;
     }
 
 }
@@ -777,10 +813,8 @@ body {
         width: 100%;
         margin-top: 60px;
         padding-top: 25px;
-        padding-left: 140px;
         display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
+        align-items: center;
     }
 
     .mainContentDivision .contentPane .rightSidebar {

@@ -275,6 +275,13 @@ function Home() {
                     </button>
                 </div>
                 <div className="right">
+
+                    <div className="search-navbar">
+                        <button onClick={searchBoxActivate}>
+                            <i className="fa-solid fa-magnifying-glass" style={{fontSize:"21px"}}></i>
+                        </button>
+                    </div>
+
                     <div className="profile">
 
                         <img srcSet={profilePicture}
@@ -295,6 +302,7 @@ function Home() {
                         </div>
 
                     </div>
+
                 </div>
             </nav>
 
@@ -404,6 +412,15 @@ function Home() {
                         <li> <a href="/profile"><i className="fa-solid fa-user"></i> Profile</a></li>
                         <li onClick={searchBoxActivate}>
                             <i className="fa-solid fa-magnifying-glass"></i> Explore
+                        </li>
+                        <li><a href="/edit"><i className="fa-solid fa-pencil"></i> Edit</a></li>
+
+                        <li onClick={addPost}>
+                            <i className="fa-solid fa-circle-plus"></i> Create
+                        </li>
+
+                        <li className="logout-sidebar">
+                            <a href="/logout"><i className="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
                         </li>
                     </ul>
                 </div>
