@@ -35,7 +35,7 @@ function Home() {
         const url = await getDownloadURL(storageRef);
         setNewPostImage(url);
     };
-    
+
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -378,12 +378,12 @@ function Home() {
                                         accept="image/*"
                                         onChange={handleFileChange}
                                         ref={fileInputRef}
-                                        style={{ display: "none" }}/>
+                                        style={{ display: "none" }} />
                                 </div>
                             </div>
                             <div className="postDetails">
                                 <input type="text" readOnly value={`Post ID : ${newPostId}`} />
-                                <input type="text" onChange={(e) => {setNewPostCaption(e.target.value)}} placeholder="Caption" />
+                                <input type="text" onChange={(e) => { setNewPostCaption(e.target.value) }} placeholder="Caption" />
                             </div>
                             <div className="addButtonPanel">
                                 <button onClick={submitPost}>Upload</button>
@@ -393,65 +393,75 @@ function Home() {
                 </div>
             </div>
 
-            <div className="contentPane">
-                {post && post.length > 0 ? (
-                    post.map((p) => (
-                        <div key={p._id} className="post">
-                            <div className="postedBy">
-                                <img srcSet={p.postedBy.profilePicture} alt="" />
-                                <h6><a href={`${p.postedBy.username}`}>{p.postedBy.username}</a></h6>
-                            </div>
-                            <div className="imageContainer">
-                                <div onDoubleClick={() => handleLikeClick(p._id)}
-                                    style={{ backgroundImage: `url(${p.imageUrl}` }}
-                                    alt="Post" className="post-image">
+            <div className="mainContentDivision">
 
-                                    <i id={"heart-logo-" + p._id}
-                                        className="fa-solid fa-heart fa-5x">
-                                    </i>
+                <div className="sidebar">
+                    <ul>
+                        <li> <i class="fa-solid fa-user"></i> Profile</li>
+                        <li><i class="fa-solid fa-magnifying-glass"></i> Explore</li>
+                    </ul>
+                </div>
 
-                                    <i id={"heart-logo-crack-" + p._id}
-                                        className="fa-solid fa-heart-crack fa-5x">
-                                    </i>
-
+                <div className="contentPane">
+                    {post && post.length > 0 ? (
+                        post.map((p) => (
+                            <div key={p._id} className="post">
+                                <div className="postedBy">
+                                    <img srcSet={p.postedBy.profilePicture} alt="" />
+                                    <h6><a href={`${p.postedBy.username}`}>{p.postedBy.username}</a></h6>
                                 </div>
-                            </div>
-                            <div className="captionContainer">
-                                <p>{p.caption}</p>
-                            </div>
-                            <div className="optionContainer">
+                                <div className="imageContainer">
+                                    <div onDoubleClick={() => handleLikeClick(p._id)}
+                                        style={{ backgroundImage: `url(${p.imageUrl}` }}
+                                        alt="Post" className="post-image">
 
-                                <div className="likeContainer">
-                                    <button id={"like-" + p._id}
-                                        className="like-button" onClick={() => handleLikeClick(p._id)}>
-                                        {p.hasLiked ? (
-                                            <i className="fa-solid fa-heart" style={{ color: "crimson" }}></i>
-                                        ) : (
-                                            <i className="fa-regular fa-heart" style={{ color: "black" }}></i>
-                                        )}
-                                    </button>
+                                        <i id={"heart-logo-" + p._id}
+                                            className="fa-solid fa-heart fa-5x">
+                                        </i>
 
-                                    <div className="likeCount">
-                                        <p>{p.likes}</p>
+                                        <i id={"heart-logo-crack-" + p._id}
+                                            className="fa-solid fa-heart-crack fa-5x">
+                                        </i>
+
                                     </div>
                                 </div>
-
-                                <div className="commentContainer">
-                                    <button className="comment-button" onClick={() => handleCommentClick(p._id)}>
-                                        <i className="fa-regular fa-comment"></i>
-                                    </button>
-
-                                    <div className="commentCount">
-                                        <p>{p.comments}</p>
-                                    </div>
+                                <div className="captionContainer">
+                                    <p>{p.caption}</p>
                                 </div>
+                                <div className="optionContainer">
 
+                                    <div className="likeContainer">
+                                        <button id={"like-" + p._id}
+                                            className="like-button" onClick={() => handleLikeClick(p._id)}>
+                                            {p.hasLiked ? (
+                                                <i className="fa-solid fa-heart" style={{ color: "crimson" }}></i>
+                                            ) : (
+                                                <i className="fa-regular fa-heart" style={{ color: "black" }}></i>
+                                            )}
+                                        </button>
+
+                                        <div className="likeCount">
+                                            <p>{p.likes}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="commentContainer">
+                                        <button className="comment-button" onClick={() => handleCommentClick(p._id)}>
+                                            <i className="fa-regular fa-comment"></i>
+                                        </button>
+
+                                        <div className="commentCount">
+                                            <p>{p.comments}</p>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
-                        </div>
-                    ))
-                ) : (
-                    <p>No posts available.</p>
-                )}
+                        ))
+                    ) : (
+                        <p>No posts available.</p>
+                    )}
+                </div>
             </div>
         </>
     );
