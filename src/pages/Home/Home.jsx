@@ -85,6 +85,9 @@ function Home() {
     }, [user]);
 
     const handleProfileClick = () => {
+
+        if (window.innerWidth > 600) return;
+
         const dropdown = document.querySelector('.dropdown');
 
         if (isPDropActive === true) {
@@ -290,6 +293,7 @@ function Home() {
 
                         <div className="dropdown">
                             <ul>
+                                <li><a href="/profile">Profile</a></li>
                                 <li><a href="/edit">Edit</a></li>
                                 <li><a onClick={addPost}>Add Post</a></li>
                                 <li>
