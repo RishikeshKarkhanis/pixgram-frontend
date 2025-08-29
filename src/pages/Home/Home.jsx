@@ -1,5 +1,7 @@
 import "./Home.css";
-import { useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../firebase.js";
 
 function Home() {
 
@@ -9,6 +11,31 @@ function Home() {
     const [isPDropActive, setIsPDropActive] = useState(false);
     const [comment, setComment] = useState(null);
     const [currentPostId, setCurrentPostId] = useState(null);
+
+    const [newPostImage, setNewPostImage] = useState("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2FDefault%2FDefaut-Post.jpg?alt=media&token=ea458c51-a8ba-446c-8f43-4461707e2f54");
+    const [newPostId, setNewPostId] = useState("");
+    const [newPostCaption, setNewPostCaption] = useState("");
+
+    const fileInputRef = useRef(null);
+
+    const handleImageUpload = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+
+        console.log("Selected file:", file);
+        const storageRef = ref(storage, `Post/${user.username}/${newPostId}/${newPostId}`);
+
+        await uploadBytes(storageRef, file);
+
+        const url = await getDownloadURL(storageRef);
+        setNewPostImage(url);
+    };
+    
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -176,6 +203,64 @@ function Home() {
         commentInput.value = ''; // Clear the input field
     }
 
+    const addPost = async () => {
+        document.querySelector('.dropdown').style.display = 'none';
+        setIsPDropActive(false);
+        document.querySelector('.addPane').style.display = 'block';
+
+        const data = await fetch('/posts/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ postedBy: user._id, imageUrl: newPostImage, caption: "No Caption" })
+        });
+
+        const json = await data.json();
+        console.log("New Post Created:", json);
+        setNewPostId(json._id);
+    }
+
+    const submitPost = async () => {
+        const data = await fetch('/posts/update/' + newPostId, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ caption: newPostCaption, imageUrl: newPostImage })
+        });
+
+        const json = await data.json();
+        console.log("Post Updated:", json);
+        // Optionally, you can refresh the feed to show the new post
+        setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2FDefault%2FDefaut-Post.jpg?alt=media&token=ea458c51-a8ba-446c-8f43-4461707e2f54");
+        setNewPostId("");
+        setNewPostCaption("");
+        document.querySelector('.addPane').style.display = 'none';
+    }
+
+    const cancelPost = async () => {
+        document.querySelector('.addPane').style.display = 'none';
+
+        // Delete the created post if user cancels
+        if (newPostId) {
+            const response = await fetch('/posts/delete/' + newPostId, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            const json = await response.json();
+            if (!response.ok) {
+                alert("Error Deleting Post");
+                console.log(response);
+            }
+            console.log("Deleted Post:", json);
+            setNewPostId("");
+            setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2FDefault%2FDefaut-Post.jpg?alt=media&token=ea458c51-a8ba-446c-8f43-4461707e2f54");
+            setNewPostCaption("");
+        }
+    }
+
     return (
         <>
             <nav className="navbar">
@@ -194,7 +279,8 @@ function Home() {
 
                         <div className="dropdown">
                             <ul>
-                                <li><a href="/edit">Profile</a></li>
+                                <li><a href="/edit">Edit</a></li>
+                                <li><a onClick={addPost}>Add Post</a></li>
                                 <li>
                                     <a style={{ color: "red", cursor: "pointer" }}
                                         href="/logout">
@@ -263,6 +349,44 @@ function Home() {
                                 <img src={profilePicture} />
                                 <input type="text" name="comment-input" id="comment-input" />
                                 <button onClick={() => handlePostComment(currentPostId)}><i className="fa-solid fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="addPane" style={{ display: "none" }}>
+                <div className="window">
+                    <div className="dialog">
+                        <div className="head">
+                            <h3>Add Post</h3>
+                            <button onClick={cancelPost}>
+                                <i className="fa-solid fa-xmark fa-2x"></i>
+                            </button>
+                        </div>
+                        <div className="body">
+                            <div className="postImageContainer">
+                                <div style={{ backgroundImage: `url(${newPostImage})` }}
+                                    id="post-image-preview" className="post-image-preview"
+                                    onClick={handleImageUpload}>
+                                    <i className="fa-solid fa-image fa-5x"></i>
+                                </div>
+                                <div className="hiddenFile">
+                                    <input
+                                        type="file"
+                                        id="file"
+                                        accept="image/*"
+                                        onChange={handleFileChange}
+                                        ref={fileInputRef}
+                                        style={{ display: "none" }}/>
+                                </div>
+                            </div>
+                            <div className="postDetails">
+                                <input type="text" readOnly value={`Post ID : ${newPostId}`} />
+                                <input type="text" onChange={(e) => {setNewPostCaption(e.target.value)}} placeholder="Caption" />
+                            </div>
+                            <div className="addButtonPanel">
+                                <button onClick={submitPost}>Upload</button>
                             </div>
                         </div>
                     </div>
