@@ -597,7 +597,7 @@ body {
 
 @media screen and (min-width: 600px) {
     .contentPane .post {
-        width: 95%;
+        width: 70%;
     }
     .addPane .window .dialog {
         width: 50%;
@@ -606,7 +606,7 @@ body {
 
 @media screen and (min-width: 1000px) {
     .contentPane .post {
-        width: 30%;
+        width: 40%;
     }
     .addPane .window .dialog {
         width: 30%;
