@@ -7,6 +7,7 @@ function Home() {
 
     const [user, setUser] = useState('');
     const [post, setPost] = useState(null);
+    const [myPost, setMyPost] = useState(null);
     const [profilePicture, setProfilePicture] = useState(null);
     const [isPDropActive, setIsPDropActive] = useState(false);
     const [comment, setComment] = useState(null);
@@ -84,6 +85,29 @@ function Home() {
         fetchPostsData();
     }, [user]);
 
+    //Fetch User Uploaded Posts
+    useEffect(() => {
+        const fetchMyPostsData = async () => {
+            if (!user || !user._id) return; // guard
+
+            console.log("user id in fetchMyPostsData:", user._id);
+
+            const response = await fetch("/posts/myposts/" + user._id);
+
+            const json = await response.json();
+
+            if (!response.ok) {
+                alert("Error Fetching Posts");
+                console.log(response);
+            }
+
+            setMyPost(json);
+            console.log("My Posts Data:", json);
+        }
+
+        fetchMyPostsData();
+    }, [user]);
+
     const handleProfileClick = () => {
 
         if (window.innerWidth > 600) return;
@@ -101,8 +125,11 @@ function Home() {
     }
 
     const handleLikeClick = async (postId) => {
-        const heartLogo = document.querySelector(`#heart-logo-${postId}`);
-        const heartCrackLogo = document.querySelector(`#heart-logo-crack-${postId}`);
+        const heartLogo = await document.querySelector(`#heart-logo-${postId}`);
+        const heartCrackLogo = await document.querySelector(`#heart-logo-crack-${postId}`);
+
+        // const selfHeartLogo = await document.querySelector(`#self-heart-logo-${postId}`);
+        // const selfHeartCrackLogo = await document.querySelector(`#self-heart-logo-crack-${postId}`);
 
         const reqObj = { userId: user._id, postId: postId };
 
@@ -129,17 +156,39 @@ function Home() {
             )
         );
 
+        console.log(post);
+        
+
+        // update UI immediately
+        setMyPost((prevMyPosts) =>
+            prevMyPosts.map((p) =>
+                p._id === postId
+                    ? {
+                        ...p,
+                        hasLiked: !p.hasLiked,
+                        likes: p.hasLiked ? p.likes - 1 : p.likes + 1,
+                    }
+                    : p
+            )
+        );
+
+        console.log(myPost);
+
         if (json.liked === true) {
             heartLogo.style.display = "block";
+            // selfHeartLogo.style.display = "block";
             setTimeout(() => {
                 heartLogo.style.display = "none";
+                // selfHeartLogo.style.display = "none";
             }, 800);
         }
 
         if (json.liked === false) {
             heartCrackLogo.style.display = "block";
+            // selfHeartCrackLogo.style.display = "block";
             setTimeout(() => {
                 heartCrackLogo.style.display = "none";
+                // selfHeartCrackLogo.style.display = "none";
             }, 800);
         }
 
@@ -264,6 +313,20 @@ function Home() {
         }
     }
 
+    const goToProfile = async () => {
+        const contentPane = document.querySelector('.contentPane');
+        const profilePane = document.querySelector('.profilePane');
+        contentPane.style.display = 'none';
+        profilePane.style.display = 'flex';
+    }
+
+    const goToHome = async () => {
+        const contentPane = document.querySelector('.contentPane');
+        const profilePane = document.querySelector('.profilePane');
+        contentPane.style.display = 'flex';
+        profilePane.style.display = 'none';
+    }
+
     const searchBoxActivate = async () => {
         alert("Search!");
     }
@@ -293,13 +356,13 @@ function Home() {
 
                         <div className="dropdown">
                             <ul>
-                                <li><a href="/profile">Profile</a></li>
-                                <li><a href="/edit">Edit</a></li>
-                                <li><a onClick={addPost}>Add Post</a></li>
+                                <li><a onClick={goToHome}><i className="fa-solid fa-home"></i> Home</a></li>
+                                <li><a onClick={goToProfile}><i className="fa-solid fa-user"></i> Profile</a></li>
+                                <li><a href="/edit"><i className="fa-solid fa-pencil"></i> Edit</a></li>
+                                <li><a onClick={addPost}><i className="fa-solid fa-circle-plus"></i> Add Post</a></li>
                                 <li>
-                                    <a style={{ color: "red", cursor: "pointer" }}
-                                        href="/logout">
-                                        Logout
+                                    <a style={{ color: "red", cursor: "pointer" }} href="/logout">
+                                        <i className="fa-solid fa-arrow-right-from-bracket"></i> Logout
                                     </a>
                                 </li>
                             </ul>
@@ -413,7 +476,8 @@ function Home() {
 
                 <div className="sidebar">
                     <ul>
-                        <li> <a href="/profile"><i className="fa-solid fa-user"></i> Profile</a></li>
+                        <li onClick={goToHome}> <i className="fa-solid fa-home"></i> Home</li>
+                        <li onClick={goToProfile}> <i className="fa-solid fa-user"></i> Profile</li>
                         <li onClick={searchBoxActivate}>
                             <i className="fa-solid fa-magnifying-glass"></i> Explore
                         </li>
@@ -427,6 +491,97 @@ function Home() {
                             <a href="/logout"><i className="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
                         </li>
                     </ul>
+                </div>
+
+                <div className="profilePane" style={{display:'none'}}>
+                    
+                    <div className="userPane">
+                        <div className="userDialog">
+                            <div className="bigProfile">
+                                <img src={profilePicture} alt="Profile Picture" />
+                            </div>
+                            <div className="accountDetails">
+                                <div className="userDetails">
+                                    <div className="username">
+                                        <h3>{user.username}</h3>
+                                    </div>
+                                    <div className="userButtons">
+                                        <button onClick={() => {
+                                            window.location.href = "/edit";
+                                        }}
+                                        className="profileEditButton">Edit</button>
+                                    </div>
+                                </div>
+                                <div className="followDetails">
+                                    <p> {user.posts} Posts</p>
+                                    <p> {user.followers} Followers</p>
+                                    <p> {user.following} Following</p>
+                                </div>
+                                <div className="bioDetails">
+                                    <p>{user.bio}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {myPost && myPost.length > 0 ? (
+                        myPost.map((p) => (
+                            <div key={p._id} className="post">
+                                <div className="postedBy">
+                                    <img srcSet={p.postedBy.profilePicture} alt="" />
+                                    <h6><a href={`${p.postedBy.username}`}>{p.postedBy.username}</a></h6>
+                                </div>
+                                <div className="imageContainer">
+                                    <div onDoubleClick={() => handleLikeClick(p._id)}
+                                        style={{ backgroundImage: `url(${p.imageUrl}` }}
+                                        alt="Post" className="post-image">
+
+                                        <i id={"heart-logo-" + p._id}
+                                            className="fa-solid fa-heart fa-5x">
+                                        </i>
+
+                                        <i id={"heart-logo-crack-" + p._id}
+                                            className="fa-solid fa-heart-crack fa-5x">
+                                        </i>
+
+                                    </div>
+                                </div>
+                                <div className="captionContainer">
+                                    <p>{p.caption}</p>
+                                </div>
+                                <div className="optionContainer">
+
+                                    <div className="likeContainer">
+                                        <button id={"like-" + p._id}
+                                            className="like-button" onClick={() => handleLikeClick(p._id)}>
+                                            {p.hasLiked ? (
+                                                <i className="fa-solid fa-heart" style={{ color: "crimson" }}></i>
+                                            ) : (
+                                                <i className="fa-regular fa-heart" style={{ color: "black" }}></i>
+                                            )}
+                                        </button>
+
+                                        <div className="likeCount">
+                                            <p>{p.likes}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="commentContainer">
+                                        <button className="comment-button" onClick={() => handleCommentClick(p._id)}>
+                                            <i className="fa-regular fa-comment"></i>
+                                        </button>
+
+                                        <div className="commentCount">
+                                            <p>{p.comments}</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No posts available.</p>
+                    )}
                 </div>
 
                 <div className="contentPane">

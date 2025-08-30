@@ -63,7 +63,7 @@ body {
     border: none;
     margin-top: -4px;
     font-size: 21px;
-    background:none;
+    background: none;
     cursor: pointer;
 }
 
@@ -94,7 +94,7 @@ body {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     top: 60px;
-    width: 100px;
+    width: 150px;
     display: flex;
     justify-content: center;
     display: none;
@@ -517,17 +517,255 @@ body {
 }
 
 .mainContentDivision .sidebar li:hover {
-    color: #28a745; /* LinkedIn blue or your theme */
+    color: #28a745;
+    /* LinkedIn blue or your theme */
 }
 
 .mainContentDivision .sidebar li a:hover {
-    color: #28a745; /* LinkedIn blue or your theme */
+    color: #28a745;
+    /* LinkedIn blue or your theme */
 }
+
+
+
+.mainContentDivision .profilePane {
+    flex: 1;
+    /* take remaining space */
+    background-color: rgb(244, 242, 238);
+    /* background-color: #28a745; */
+    /* margin-top: 100px; */
+    text-align: center;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    /* padding: 10px; */
+    margin-top: 80px;
+}
+
+.mainContentDivision .profilePane .userPane {
+    width: 100%;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+}
+
+.mainContentDivision .profilePane .userDialog {
+    background-color: white;
+    border-radius: 5px;
+    width: 500px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+}
+
+.mainContentDivision .profilePane .userDialog .bigProfile {
+    background-color: white;
+    border-radius: 5px;
+}
+
+.mainContentDivision .profilePane .userDialog .bigProfile img {
+    height: 100px;
+    margin-left: 10px;
+    width: 100px;
+    border-radius: 360px;
+    margin-top: 3px;
+}
+
+.mainContentDivision .profilePane .userDialog .accountDetails {
+    background-color:white;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 5px;
+}
+
+.mainContentDivision .profilePane .userDialog .accountDetails .userDetails {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-left: 10px;
+    border-radius: 5px;
+    display: flex;
+    gap: 5px;
+}
+
+.mainContentDivision .profilePane .userDialog .accountDetails .userDetails .username {
+    background-color: white;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.mainContentDivision .profilePane .userDialog .accountDetails .userDetails .userButtons {
+    background-color: white;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.mainContentDivision .profilePane .userDialog .accountDetails .userDetails .userButtons button {
+    background-color: #28a745;
+    font-size: 18px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 2.5px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    width: 50px;
+}
+
+.mainContentDivision .profilePane .userDialog .accountDetails .followDetails {
+    background-color: white;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    padding-left: 10px;
+}
+
+.mainContentDivision .profilePane .userDialog .accountDetails .bioDetails {
+    background-color: white;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+
+.mainContentDivision .profilePane .post {
+    background-color: white;
+    width: 95%;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mainContentDivision .profilePane .post .postedBy {
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    gap: 10px;
+}
+
+.mainContentDivision .profilePane .post .postedBy h6 a {
+    text-decoration: none;
+    color: black;
+}
+
+.mainContentDivision .profilePane .post .postedBy img {
+    height: 40px;
+    width: 40px;
+    border-radius: 360px;
+}
+
+.mainContentDivision .profilePane .post .imageContainer {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.mainContentDivision .profilePane .post .imageContainer .post-image {
+    width: 100%;
+    background-color: white;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.mainContentDivision .profilePane .post .imageContainer .post-image i {
+    font-size: 100px;
+    /* color: white; */
+    background-image: linear-gradient(90deg, rgb(255, 255, 255, 0.75), rgb(245, 245, 245, 0.5));
+    -webkit-background-clip: text;
+    /* For WebKit browsers */
+    background-clip: text;
+    color: transparent;
+    /* Makes the text transparent so the background shows through */
+    display: none;
+}
+
+.mainContentDivision .profilePane .post .captionContainer {
+    text-align: left;
+    padding: 5px;
+    font-size: 16px;
+    padding-left: 10px;
+    background-color: white;
+}
+
+.mainContentDivision .profilePane .post .optionContainer {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.mainContentDivision .profilePane .post .optionContainer .likeContainer {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    gap: 2.5px;
+}
+
+.mainContentDivision .profilePane .post .optionContainer .commentContainer {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    gap: 2.5px;
+}
+
+.mainContentDivision .profilePane .post .optionContainer button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.mainContentDivision .profilePane .post .optionContainer button i {
+    font-size: 21px;
+}
+
+
+
+
+
+
+
+
+
 
 
 
 .mainContentDivision .contentPane {
-    flex: 1;  /* take remaining space */
+    flex: 1;
+    /* take remaining space */
     background-color: rgb(244, 242, 238);
     /* background-color: #28a745; */
     /* margin-top: 100px; */
@@ -679,6 +917,16 @@ body {
     .addPane .window .dialog {
         width: 95%;
     }
+
+    .mainContentDivision .profilePane .userDialog {
+        width: 95%;
+    }
+    .mainContentDivision .profilePane .userDialog .accountDetails .followDetails p {
+        font-size: 14px;
+    }
+    .mainContentDivision .profilePane .userDialog .accountDetails .bioDetails p {
+        font-size: 14px;
+    }
 }
 
 @media screen and (min-width: 350px) {
@@ -688,6 +936,17 @@ body {
 
     .addPane .window .dialog {
         width: 95%;
+    }
+
+    .mainContentDivision .profilePane .userDialog {
+        width: 95%;
+    }
+    .mainContentDivision .profilePane .userDialog .accountDetails .followDetails {
+        font-size: 14px;
+    }
+
+    .mainContentDivision .profilePane .userDialog .accountDetails .bioDetails p {
+        font-size: 14px;
     }
 
 }
@@ -701,10 +960,25 @@ body {
         width: 95%;
     }
 
+    .mainContentDivision .profilePane .userDialog {
+        width: 95%;
+    }
+    .mainContentDivision .profilePane .userDialog .accountDetails .followDetails {
+        font-size: 14px;
+    }
+
+    .mainContentDivision .profilePane .userDialog .accountDetails .bioDetails p{
+        font-size: 14px;
+    }
+
 }
 
 @media screen and (min-width: 600px) {
     .mainContentDivision .contentPane .post {
+        width: 90%;
+    }
+
+    .mainContentDivision .profilePane .post {
         width: 90%;
     }
 
@@ -720,13 +994,26 @@ body {
     .mainContentDivision {
         display: flex;
         justify-content: center;
-    } 
+    }
+
     .mainContentDivision .contentPane {
         width: 100%;
         margin-top: 60px;
         padding-top: 25px;
         display: flex;
         align-items: center;
+    }
+
+    .mainContentDivision .profilePane {
+        width: 100%;
+        margin-top: 60px;
+        padding-top: 25px;
+        display: flex;
+        align-items: center;
+    }
+
+    .mainContentDivision .profilePane .userDialog {
+        width: 90%;
     }
 
     .navbar .right .search-navbar {
@@ -737,6 +1024,10 @@ body {
 
 @media screen and (min-width: 820px) {
     .mainContentDivision .contentPane .post {
+        width: 90%;
+    }
+
+    .mainContentDivision .profilePane .post {
         width: 90%;
     }
 
@@ -752,13 +1043,26 @@ body {
     .mainContentDivision {
         display: flex;
         justify-content: center;
-    } 
+    }
+
     .mainContentDivision .contentPane {
         width: 100%;
         margin-top: 60px;
         padding-top: 25px;
         display: flex;
         align-items: center;
+    }
+
+    .mainContentDivision .profilePane {
+        width: 100%;
+        margin-top: 60px;
+        padding-top: 25px;
+        display: flex;
+        align-items: center;
+    }
+
+    .mainContentDivision .profilePane .userDialog {
+        width: 90%;
     }
 
 }
@@ -768,31 +1072,7 @@ body {
         width: 500px;
     }
 
-    .addPane .window .dialog {
-        width: 50%;
-    }
-
-    .mainContentDivision .sidebar {
-        display: flex;
-        width: 225px;
-    }
-
-    .mainContentDivision {
-        display: flex;
-        justify-content: center;
-    } 
-    .mainContentDivision .contentPane {
-        width: 100%;
-        margin-top: 60px;
-        padding-top: 25px;
-        display: flex;
-        align-items: center;
-    }
-
-}
-
-@media screen and (min-width: 1200px) {
-    .mainContentDivision .contentPane .post {
+    .mainContentDivision .profilePane .post {
         width: 500px;
     }
 
@@ -808,7 +1088,8 @@ body {
     .mainContentDivision {
         display: flex;
         justify-content: center;
-    } 
+    }
+
     .mainContentDivision .contentPane {
         width: 100%;
         margin-top: 60px;
@@ -817,8 +1098,66 @@ body {
         align-items: center;
     }
 
+    .mainContentDivision .profilePane {
+        width: 100%;
+        margin-top: 60px;
+        padding-top: 25px;
+        display: flex;
+        align-items: center;
+    }
+
+    .mainContentDivision .profilePane .userDialog {
+        width: 500px;
+    }
+
+}
+
+@media screen and (min-width: 1200px) {
+    .mainContentDivision .contentPane .post {
+        width: 500px;
+    }
+
+    .mainContentDivision .profilePane .post {
+        width: 500px;
+    }
+
+    .addPane .window .dialog {
+        width: 50%;
+    }
+
+    .mainContentDivision .sidebar {
+        display: flex;
+        width: 225px;
+    }
+
+    .mainContentDivision {
+        display: flex;
+        justify-content: center;
+    }
+
+    .mainContentDivision .contentPane {
+        width: 100%;
+        margin-top: 60px;
+        padding-top: 25px;
+        display: flex;
+        align-items: center;
+    }
+
+    .mainContentDivision .profilePane {
+        width: 100%;
+        margin-top: 60px;
+        padding-top: 25px;
+        display: flex;
+        align-items: center;
+    }
+
+    .mainContentDivision .profilePane .userDialog {
+        width: 500px;
+    }
+
     .mainContentDivision .contentPane .rightSidebar {
         display: flex;
     }
+
 
 }
