@@ -1,11 +1,13 @@
-import "./Home.css";
-import { useRef, useEffect, useState } from 'react';
+import "./Profile.css";
+import { useRef, useEffect, useState,  } from 'react';
+import { useParams } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase.js";
 
-function Home() {
+function Profile() {
 
     const [user, setUser] = useState('');
+    const [profileOwner, setProfileOwner] = useState('');
     const [post, setPost] = useState(null);
     const [myPost, setMyPost] = useState(null);
     const [profilePicture, setProfilePicture] = useState(null);
@@ -18,6 +20,9 @@ function Home() {
     const [newPostCaption, setNewPostCaption] = useState("");
 
     const fileInputRef = useRef(null);
+
+    const {username} = useParams();
+    
 
     const handleImageUpload = () => {
         fileInputRef.current.click();
@@ -61,30 +66,39 @@ function Home() {
         fetchUserData();
     }, []);
 
-    //Fetch Posts Of People User Follows
-
+    //Fetch User Uploaded Posts
     useEffect(() => {
-        const fetchPostsData = async () => {
+        const fetchMyPostsData = async () => {
             if (!user || !user._id) return; // guard
 
-            console.log("user id in fetchPostsData:", user._id);
+            const profileUserIdResp = await fetch("/users/getid/"+username);
+            const profileUserId = await profileUserIdResp.json();
+            
 
-            const response = await fetch("/posts/feed/" + user._id);
+            console.log("user id in fetchMyPostsData:", profileUserId.uid);
+
+            const response = await fetch("/posts/myposts/" + profileUserId.uid);
 
             const json = await response.json();
+
+            const profileOwnerResp = await fetch("/users/getuserbyid/"+profileUserId.uid);
+            const profileOwnerLocal = await profileOwnerResp.json();
+
+            console.log(profileOwnerLocal);
+            setProfileOwner(profileOwnerLocal);
+            
 
             if (!response.ok) {
                 alert("Error Fetching Posts");
                 console.log(response);
             }
 
-            setPost(json);
-            console.log("Posts Data:", json);
+            setMyPost(json);
+            console.log("My Posts Data:", json);
         }
 
-        fetchPostsData();
+        fetchMyPostsData();
     }, [user]);
-
 
     const handleProfileClick = () => {
 
@@ -122,8 +136,21 @@ function Home() {
         const json = await data.json();
 
         // update UI immediately
-        setPost((prevPosts) =>
-            prevPosts.map((p) =>
+        // setPost((prevPosts) =>
+        //     prevPosts.map((p) =>
+        //         p._id === postId
+        //             ? {
+        //                 ...p,
+        //                 hasLiked: !p.hasLiked,
+        //                 likes: p.hasLiked ? p.likes - 1 : p.likes + 1,
+        //             }
+        //             : p
+        //     )
+        // );
+
+        // update UI immediately
+        setMyPost((prevMyPosts) =>
+            prevMyPosts.map((p) =>
                 p._id === postId
                     ? {
                         ...p,
@@ -134,8 +161,10 @@ function Home() {
             )
         );
 
-        console.log(post);
+        // console.log(post);
+        console.log(myPost);
         
+
         if (json.liked === true) {
             heartLogo.style.display = "block";
             // selfHeartLogo.style.display = "block";
@@ -449,9 +478,37 @@ function Home() {
                     </ul>
                 </div>
 
-                <div className="contentPane">
-                    {post && post.length > 0 ? (
-                        post.map((p) => (
+                <div className="profilePane" style={{display:'flex'}}>
+                    
+                    <div className="userPane">
+                        <div className="userDialog">
+                            <div className="bigProfile">
+                                <img src={profileOwner.profilePicture} alt="Profile Picture" />
+                            </div>
+                            <div className="accountDetails">
+                                <div className="userDetails">
+                                    <div className="username">
+                                        <h3>{username}</h3>
+                                    </div>
+                                    <div className="userButtons">
+                                        {profileOwner._id === user._id ? (<button>Edit</button>) : (
+                                            <button>Follow</button>)}
+                                    </div>
+                                </div>
+                                <div className="followDetails">
+                                    <p> {profileOwner.posts} Posts</p>
+                                    <p> {profileOwner.followers} Followers</p>
+                                    <p> {profileOwner.following} Following</p>
+                                </div>
+                                <div className="bioDetails">
+                                    <p>{profileOwner.bio}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {myPost && myPost.length > 0 ? (
+                        myPost.map((p) => (
                             <div key={p._id} className="post">
                                 <div className="postedBy">
                                     <img srcSet={p.postedBy.profilePicture} alt="" />
@@ -515,4 +572,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default Profile;
