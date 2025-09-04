@@ -12,8 +12,8 @@ function Home() {
     const [isPDropActive, setIsPDropActive] = useState(false);
     const [comment, setComment] = useState(null);
     const [currentPostId, setCurrentPostId] = useState(null);
-    const [search, setSearch] = useState('')
-
+    const [search, setSearch] = useState([]);
+    const [query, setQuery] = useState('');
     const [newPostImage, setNewPostImage] = useState("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2Fdefault%2FDefaut-Post.jpg?alt=media&token=450fede7-f0a1-41db-a6ba-a78ae8f720cd");
     const [newPostId, setNewPostId] = useState("");
     const [newPostCaption, setNewPostCaption] = useState("");
@@ -86,6 +86,17 @@ function Home() {
         fetchPostsData();
     }, [user]);
 
+    useEffect(() => {
+        const fetchSearchResult = setTimeout(async () => {
+            const response = await fetch(`/users/search?query=${query}`);
+            const data = await response.json();
+            setSearch(data);
+            console.log(data);
+        }, 500)
+
+        return () => clearTimeout(fetchSearchResult);
+    }, [query]);
+
 
     const handleProfileClick = () => {
 
@@ -136,7 +147,7 @@ function Home() {
         );
 
         console.log(post);
-        
+
         if (json.liked === true) {
             heartLogo.style.display = "block";
             // selfHeartLogo.style.display = "block";
@@ -281,7 +292,7 @@ function Home() {
     }
 
     const goToProfile = async () => {
-        window.location.href = "/"+user.username;
+        window.location.href = "/" + user.username;
     }
 
     const goToHome = async () => {
@@ -305,7 +316,7 @@ function Home() {
 
                     <div className="search-navbar">
                         <button onClick={searchBoxActivate}>
-                            <i className="fa-solid fa-magnifying-glass" style={{fontSize:"21px"}}></i>
+                            <i className="fa-solid fa-magnifying-glass" style={{ fontSize: "21px" }}></i>
                         </button>
                     </div>
 
@@ -446,13 +457,26 @@ function Home() {
 
                         <div className="body">
                             <div className="inputHolder">
-                                <input type="text" name="search" id="search" placeholder="Search" />
+                                <input type="text" name="search" id="search"
+                                    onChange={(e) => { setQuery(e.target.value) }}
+                                    placeholder="Search" />
                             </div>
                             <div className="resultHolder">
-                                <div className="results"><p>This will Contain Results!</p></div>
+                                {search && search.length > 0 ? (
+                                    search.map((q) => (
+                                        <div key={q._id} className="result">
+                                            <p><a href={"/"+q.username}>{q.username}</a></p>
+                                            <img 
+                                                onClick={() => {window.location.href = "/" + q.username}} 
+                                                src={q.profilePicture} alt="UserProfile" />
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p></p>
+                                )}
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

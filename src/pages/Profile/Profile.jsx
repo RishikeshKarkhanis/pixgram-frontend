@@ -346,7 +346,7 @@ function Profile() {
         };
 
         console.log(reqObj);
-        
+
 
         const response = await fetch('/follows/delete',
             {
@@ -373,7 +373,7 @@ function Profile() {
         };
 
         console.log(reqObj);
-        
+
 
         const response = await fetch('/follows/create',
             {
@@ -574,21 +574,21 @@ function Profile() {
                                     <div className="userButtons">
                                         {profileOwner._id === user._id ?
                                             (<button className="userEditBtn"
-                                                style={{width:"100px", fontSize:18, height:25}}
+                                                style={{ width: "100px", fontSize: 18, height: 25 }}
                                                 onClick={() => { window.location.href = "/edit" }}>Edit</button>) :
                                             (
                                                 (isFollowing ?
                                                     (<button className="userFollowingBtn"
-                                                        style={{width:"100px", fontSize:18, height:25}} 
+                                                        style={{ width: "100px", fontSize: 18, height: 25 }}
                                                         onClick={unfollow}>
                                                         Following
                                                     </button>
                                                     ) :
-                                                    (<button className="userFollowBtn" 
-                                                        style={{width:"100px", fontSize:18, height:25}}
+                                                    (<button className="userFollowBtn"
+                                                        style={{ width: "100px", fontSize: 18, height: 25 }}
                                                         onClick={follow}>
                                                         Follow
-                                                     </button>)
+                                                    </button>)
                                                 )
                                             )
                                         }
@@ -610,8 +610,15 @@ function Profile() {
                         myPost.map((p) => (
                             <div key={p._id} className="post">
                                 <div className="postedBy">
-                                    <img srcSet={p.postedBy.profilePicture} alt="" />
-                                    <h6><a href={`${p.postedBy.username}`}>{p.postedBy.username}</a></h6>
+                                    <div className="topleft">
+                                        <img srcSet={p.postedBy.profilePicture} alt="" />
+                                        <h6><a href={`${p.postedBy.username}`}>{p.postedBy.username}</a></h6>
+                                    </div>
+                                    <div className="topright">
+                                        <button>
+                                            <i className="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div className="imageContainer">
                                     <div onDoubleClick={() => handleLikeClick(p._id)}

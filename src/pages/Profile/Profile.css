@@ -673,22 +673,44 @@ body {
     background-color: white;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: space-between;
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 10px;
     gap: 10px;
 }
 
-.mainContentDivision .profilePane .post .postedBy h6 a {
+.mainContentDivision .profilePane .post .postedBy .topleft {
+    background-color: white;
+    width: 98%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+}
+
+.mainContentDivision .profilePane .post .postedBy .topleft h6 a {
     text-decoration: none;
     color: black;
 }
 
-.mainContentDivision .profilePane .post .postedBy img {
+.mainContentDivision .profilePane .post .postedBy .topleft img {
     height: 40px;
     width: 40px;
     border-radius: 360px;
+}
+
+.mainContentDivision .profilePane .post .postedBy .topright {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainContentDivision .profilePane .post .postedBy .topright button {
+    background:none;
+    color: black;
+    border: none;
+    cursor: pointer;
 }
 
 .mainContentDivision .profilePane .post .imageContainer {
