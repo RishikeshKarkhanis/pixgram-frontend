@@ -1,5 +1,5 @@
 import "./Profile.css";
-import { useRef, useEffect, useState,  } from 'react';
+import { useRef, useEffect, useState, } from 'react';
 import { useParams } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase.js";
@@ -10,6 +10,7 @@ function Profile() {
     const [profileOwner, setProfileOwner] = useState('');
     const [post, setPost] = useState(null);
     const [myPost, setMyPost] = useState(null);
+    const [isFollowing, setIsFollowing] = useState(false);
     const [profilePicture, setProfilePicture] = useState(null);
     const [isPDropActive, setIsPDropActive] = useState(false);
     const [comment, setComment] = useState(null);
@@ -21,8 +22,8 @@ function Profile() {
 
     const fileInputRef = useRef(null);
 
-    const {username} = useParams();
-    
+    const { username } = useParams();
+
 
     const handleImageUpload = () => {
         fileInputRef.current.click();
@@ -71,9 +72,9 @@ function Profile() {
         const fetchMyPostsData = async () => {
             if (!user || !user._id) return; // guard
 
-            const profileUserIdResp = await fetch("/users/getid/"+username);
+            const profileUserIdResp = await fetch("/users/getid/" + username);
             const profileUserId = await profileUserIdResp.json();
-            
+
 
             console.log("user id in fetchMyPostsData:", profileUserId.uid);
 
@@ -81,12 +82,12 @@ function Profile() {
 
             const json = await response.json();
 
-            const profileOwnerResp = await fetch("/users/getuserbyid/"+profileUserId.uid);
+            const profileOwnerResp = await fetch("/users/getuserbyid/" + profileUserId.uid);
             const profileOwnerLocal = await profileOwnerResp.json();
 
             console.log(profileOwnerLocal);
             setProfileOwner(profileOwnerLocal);
-            
+
 
             if (!response.ok) {
                 alert("Error Fetching Posts");
@@ -99,6 +100,32 @@ function Profile() {
 
         fetchMyPostsData();
     }, [user]);
+
+    useEffect(() => {
+        const fetchFollowData = async () => {
+            if (!user?._id || !profileOwner?._id) return;
+            const response = await fetch("/follows/isfollowing", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    follower: user._id,
+                    following: profileOwner._id
+                })
+            });
+
+            if (response.ok) {
+                setIsFollowing(true);
+            }
+
+            const data = await response.json();
+            console.log(data);
+
+        }
+
+        fetchFollowData();
+    }, [profileOwner, user]);
 
     const handleProfileClick = () => {
 
@@ -163,7 +190,7 @@ function Profile() {
 
         // console.log(post);
         console.log(myPost);
-        
+
 
         if (json.liked === true) {
             heartLogo.style.display = "block";
@@ -305,11 +332,65 @@ function Profile() {
     }
 
     const goToProfile = async () => {
-        window.location.href = "/"+user.username;
+        window.location.href = "/" + user.username;
     }
 
     const goToHome = async () => {
         window.location.href = "/";
+    }
+
+    const unfollow = async () => {
+        const reqObj = {
+            follower: user._id,
+            following: profileOwner._id
+        };
+
+        console.log(reqObj);
+        
+
+        const response = await fetch('/follows/delete',
+            {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reqObj)
+            });
+
+        const data = await response.json();
+        console.log(data);
+
+        if (response.ok) {
+            setIsFollowing(false);
+        }
+
+    }
+
+    const follow = async () => {
+        const reqObj = {
+            follower: user._id,
+            following: profileOwner._id
+        };
+
+        console.log(reqObj);
+        
+
+        const response = await fetch('/follows/create',
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reqObj)
+            });
+
+        const data = await response.json();
+        console.log(data);
+
+        if (response.ok) {
+            setIsFollowing(true);
+        }
+
     }
 
     const searchBoxActivate = async () => {
@@ -329,7 +410,7 @@ function Profile() {
 
                     <div className="search-navbar">
                         <button onClick={searchBoxActivate}>
-                            <i className="fa-solid fa-magnifying-glass" style={{fontSize:"21px"}}></i>
+                            <i className="fa-solid fa-magnifying-glass" style={{ fontSize: "21px" }}></i>
                         </button>
                     </div>
 
@@ -478,8 +559,8 @@ function Profile() {
                     </ul>
                 </div>
 
-                <div className="profilePane" style={{display:'flex'}}>
-                    
+                <div className="profilePane" style={{ display: 'flex' }}>
+
                     <div className="userPane">
                         <div className="userDialog">
                             <div className="bigProfile">
@@ -491,8 +572,26 @@ function Profile() {
                                         <h3>{username}</h3>
                                     </div>
                                     <div className="userButtons">
-                                        {profileOwner._id === user._id ? (<button>Edit</button>) : (
-                                            <button>Follow</button>)}
+                                        {profileOwner._id === user._id ?
+                                            (<button className="userEditBtn"
+                                                style={{width:"100px", fontSize:18, height:25}}
+                                                onClick={() => { window.location.href = "/edit" }}>Edit</button>) :
+                                            (
+                                                (isFollowing ?
+                                                    (<button className="userFollowingBtn"
+                                                        style={{width:"100px", fontSize:18, height:25}} 
+                                                        onClick={unfollow}>
+                                                        Following
+                                                    </button>
+                                                    ) :
+                                                    (<button className="userFollowBtn" 
+                                                        style={{width:"100px", fontSize:18, height:25}}
+                                                        onClick={follow}>
+                                                        Follow
+                                                     </button>)
+                                                )
+                                            )
+                                        }
                                     </div>
                                 </div>
                                 <div className="followDetails">

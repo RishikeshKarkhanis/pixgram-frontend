@@ -71,11 +71,6 @@ body {
     color: #28a745;
 }
 
-.navbar .right .profile {
-    /* background-color: #28a745; */
-}
-
-
 .navbar .right .profile-picture {
     width: 50px;
     height: 50px;
@@ -607,7 +602,31 @@ body {
     justify-content: flex-start;
 }
 
-.mainContentDivision .profilePane .userDialog .accountDetails .userDetails .userButtons button {
+.mainContentDivision .profilePane .userDialog .accountDetails .userDetails .userButtons .userEditBtn {
+    background-color:dodgerblue;
+    font-size: 18px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 2.5px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    width: max-content;;
+}
+
+.mainContentDivision .profilePane .userDialog .accountDetails .userDetails .userButtons .userFollowingBtn {
+    background-color: #5cb85c ;
+    font-size: 18px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 2.5px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    width: max-content;;
+}
+
+.mainContentDivision .profilePane .userDialog .accountDetails .userDetails .userButtons .userFollowBtn {
     background-color: #28a745;
     font-size: 18px;
     color: white;
@@ -782,6 +801,11 @@ body {
     .mainContentDivision .profilePane .userDialog {
         width: 95%;
     }
+
+    .mainContentDivision .profilePane .userDialog .accountDetails .userDetails .userButtons  {
+        font-size: 18px !important;
+    }
+    
     .mainContentDivision .profilePane .userDialog .accountDetails .followDetails p {
         font-size: 14px;
     }
@@ -806,6 +830,10 @@ body {
         font-size: 14px;
     }
 
+    .mainContentDivision .profilePane .userDialog .accountDetails .userDetails .userButtons  {
+        font-size: 18px !important;
+    }
+
     .mainContentDivision .profilePane .userDialog .accountDetails .bioDetails p {
         font-size: 14px;
     }
@@ -826,6 +854,10 @@ body {
     }
     .mainContentDivision .profilePane .userDialog .accountDetails .followDetails {
         font-size: 14px;
+    }
+
+    .mainContentDivision .profilePane .userDialog .accountDetails .userDetails .userButtons  {
+        font-size: 18px !important;
     }
 
     .mainContentDivision .profilePane .userDialog .accountDetails .bioDetails p{
@@ -875,6 +907,10 @@ body {
 
     .mainContentDivision .profilePane .userDialog {
         width: 90%;
+    }
+
+    .mainContentDivision .profilePane .userDialog .accountDetails .userDetails .userButtons  {
+        font-size: 18px !important;
     }
 
     .navbar .right .search-navbar {
