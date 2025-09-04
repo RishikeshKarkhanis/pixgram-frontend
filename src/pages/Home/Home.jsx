@@ -12,8 +12,9 @@ function Home() {
     const [isPDropActive, setIsPDropActive] = useState(false);
     const [comment, setComment] = useState(null);
     const [currentPostId, setCurrentPostId] = useState(null);
+    const [search, setSearch] = useState('')
 
-    const [newPostImage, setNewPostImage] = useState("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2FDefault%2FDefaut-Post.jpg?alt=media&token=ea458c51-a8ba-446c-8f43-4461707e2f54");
+    const [newPostImage, setNewPostImage] = useState("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2Fdefault%2FDefaut-Post.jpg?alt=media&token=450fede7-f0a1-41db-a6ba-a78ae8f720cd");
     const [newPostId, setNewPostId] = useState("");
     const [newPostCaption, setNewPostCaption] = useState("");
 
@@ -270,9 +271,13 @@ function Home() {
             }
             console.log("Deleted Post:", json);
             setNewPostId("");
-            setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2FDefault%2FDefaut-Post.jpg?alt=media&token=ea458c51-a8ba-446c-8f43-4461707e2f54");
+            setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2Fdefault%2FDefaut-Post.jpg?alt=media&token=450fede7-f0a1-41db-a6ba-a78ae8f720cd");
             setNewPostCaption("");
         }
+    }
+
+    const cancelSearch = async () => {
+        document.querySelector('.searchPane').style.display = 'none';
     }
 
     const goToProfile = async () => {
@@ -284,7 +289,7 @@ function Home() {
     }
 
     const searchBoxActivate = async () => {
-        alert("Search!");
+        document.querySelector('.searchPane').style.display = 'block';
     }
 
     return (
@@ -427,6 +432,31 @@ function Home() {
                     </div>
                 </div>
             </div>
+
+
+            <div className="searchPane" style={{ display: "none" }}>
+                <div className="window">
+                    <div className="dialog">
+                        <div className="head">
+                            <h3>Search</h3>
+                            <button onClick={cancelSearch}>
+                                <i className="fa-solid fa-xmark fa-2x"></i>
+                            </button>
+                        </div>
+
+                        <div className="body">
+                            <div className="inputHolder">
+                                <input type="text" name="search" id="search" placeholder="Search" />
+                            </div>
+                            <div className="resultHolder">
+                                <div className="results"><p>This will Contain Results!</p></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
 
             <div className="mainContentDivision">
 
