@@ -35,7 +35,7 @@ function Profile() {
 
 
         console.log("Selected file:", file);
-        const storageRef = ref(storage, `Posts/${user.username}/${newPostId}/${newPostId}`);
+        const storageRef = ref(storage, `${user.username}/Posts/${newPostId}/${newPostId}`);
 
         await uploadBytes(storageRef, file);
 
