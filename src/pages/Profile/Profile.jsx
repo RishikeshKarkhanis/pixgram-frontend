@@ -16,7 +16,7 @@ function Profile() {
     const [comment, setComment] = useState(null);
     const [currentPostId, setCurrentPostId] = useState(null);
 
-    const [newPostImage, setNewPostImage] = useState("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Posts%2Fdefault%2Fdefault.jpg?alt=media&token=e134141d-b547-4eb8-927c-abb8d3c77312");
+    const [newPostImage, setNewPostImage] = useState("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/default%2FPosts%2Fdefault%2Fdefault.jpg?alt=media&token=88af68e1-119b-426f-807e-e5f49e05dfb0");
     const [newPostId, setNewPostId] = useState("");
     const [newPostCaption, setNewPostCaption] = useState("");
 
@@ -303,7 +303,7 @@ function Profile() {
         const json = await data.json();
         console.log("Post Updated:", json);
         // Optionally, you can refresh the feed to show the new post
-        setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Posts%2Fdefault%2Fdefault.jpg?alt=media&token=e134141d-b547-4eb8-927c-abb8d3c77312");
+        setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/default%2FPosts%2Fdefault%2Fdefault.jpg?alt=media&token=88af68e1-119b-426f-807e-e5f49e05dfb0");
         setNewPostId("");
         setNewPostCaption("");
         document.querySelector('.addPane').style.display = 'none';
@@ -326,7 +326,7 @@ function Profile() {
             }
             console.log("Deleted Post:", json);
             setNewPostId("");
-            setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Posts%2Fdefault%2Fdefault.jpg?alt=media&token=e134141d-b547-4eb8-927c-abb8d3c77312");
+            setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/default%2FPosts%2Fdefault%2Fdefault.jpg?alt=media&token=88af68e1-119b-426f-807e-e5f49e05dfb0");
             setNewPostCaption("");
         }
     }

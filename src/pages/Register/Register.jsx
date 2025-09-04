@@ -10,14 +10,14 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [profiePic, setProfilePic] = useState(
-        "https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Profile%20Pictures%2Fdefault%2Fdefault.webp?alt=media&token=7cd2f60e-2868-4d5d-94e7-88c4f4be13fe"
+        "https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/default%2FProfile%20Picture%2Fdefault.webp?alt=media&token=31a832e9-1b81-43d3-a87a-54fc581f4da6"
     );
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
     const fileInputRef = useRef(null);
     const [imageSrc, setImageSrc] = useState(
-        "https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Profile%20Pictures%2Fdefault%2Fdefault.webp?alt=media&token=7cd2f60e-2868-4d5d-94e7-88c4f4be13fe"
+        "https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/default%2FProfile%20Picture%2Fdefault.webp?alt=media&token=31a832e9-1b81-43d3-a87a-54fc581f4da6"
     );
 
     const handleImageUpload = () => {
