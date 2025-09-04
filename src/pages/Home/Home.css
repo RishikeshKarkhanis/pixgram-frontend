@@ -583,7 +583,10 @@ body {
     text-decoration: none;
     font-size: 18;
     color: black;
+}
 
+.searchPane .window .dialog .body .resultHolder .result p a:hover {
+    color: #28a745;
 }
 
 .searchPane .window .dialog .body .resultHolder .result img {

@@ -10,14 +10,14 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [profiePic, setProfilePic] = useState(
-        "https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/User%2FProfilePictures%2FDefault%2Fdefault.webp?alt=media&token=fae64a84-57b3-4637-990f-349dd6d91207"
+        "https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Profile%20Pictures%2Fdefault%2Fdefault.webp?alt=media&token=7cd2f60e-2868-4d5d-94e7-88c4f4be13fe"
     );
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
     const fileInputRef = useRef(null);
     const [imageSrc, setImageSrc] = useState(
-        "https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/User%2FProfilePictures%2FDefault%2Fdefault.webp?alt=media&token=fae64a84-57b3-4637-990f-349dd6d91207"
+        "https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Profile%20Pictures%2Fdefault%2Fdefault.webp?alt=media&token=7cd2f60e-2868-4d5d-94e7-88c4f4be13fe"
     );
 
     const handleImageUpload = () => {
@@ -35,16 +35,13 @@ function Register() {
 
         console.log("Selected file:", file);
         setLoading(true);
-        const storageRef = ref(storage, `User/ProfilePictures/${username}/${username}`);
+        const storageRef = ref(storage, `Profile Pictures/${username}/${username}`);
 
         await uploadBytes(storageRef, file);
 
         const url = await getDownloadURL(storageRef);
         setImageSrc(url);
         setLoading(false);
-
-
-
     };
 
     async function handleSubmit() {

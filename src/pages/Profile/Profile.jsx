@@ -16,7 +16,7 @@ function Profile() {
     const [comment, setComment] = useState(null);
     const [currentPostId, setCurrentPostId] = useState(null);
 
-    const [newPostImage, setNewPostImage] = useState("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2FDefault%2FDefaut-Post.jpg?alt=media&token=ea458c51-a8ba-446c-8f43-4461707e2f54");
+    const [newPostImage, setNewPostImage] = useState("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Posts%2Fdefault%2Fdefault.jpg?alt=media&token=e134141d-b547-4eb8-927c-abb8d3c77312");
     const [newPostId, setNewPostId] = useState("");
     const [newPostCaption, setNewPostCaption] = useState("");
 
@@ -35,7 +35,7 @@ function Profile() {
 
 
         console.log("Selected file:", file);
-        const storageRef = ref(storage, `Post/${user.username}/${newPostId}/${newPostId}`);
+        const storageRef = ref(storage, `Posts/${user.username}/${newPostId}/${newPostId}`);
 
         await uploadBytes(storageRef, file);
 
@@ -303,7 +303,7 @@ function Profile() {
         const json = await data.json();
         console.log("Post Updated:", json);
         // Optionally, you can refresh the feed to show the new post
-        setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2FDefault%2FDefaut-Post.jpg?alt=media&token=ea458c51-a8ba-446c-8f43-4461707e2f54");
+        setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Posts%2Fdefault%2Fdefault.jpg?alt=media&token=e134141d-b547-4eb8-927c-abb8d3c77312");
         setNewPostId("");
         setNewPostCaption("");
         document.querySelector('.addPane').style.display = 'none';
@@ -326,7 +326,7 @@ function Profile() {
             }
             console.log("Deleted Post:", json);
             setNewPostId("");
-            setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2FDefault%2FDefaut-Post.jpg?alt=media&token=ea458c51-a8ba-446c-8f43-4461707e2f54");
+            setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Posts%2Fdefault%2Fdefault.jpg?alt=media&token=e134141d-b547-4eb8-927c-abb8d3c77312");
             setNewPostCaption("");
         }
     }
@@ -392,6 +392,22 @@ function Profile() {
         }
 
     }
+
+    const deletePost = async (postId) => {
+        try {
+            const response = await fetch(`/posts/delete/${postId}`, { method: "DELETE" });
+            const data = await response.json();
+
+            if (response.ok) {
+                // remove the deleted post from state
+                setMyPost((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+            } else {
+                console.error("Failed to delete:", data.error);
+            }
+        } catch (err) {
+            console.error("Error deleting post:", err);
+        }
+    };
 
     const searchBoxActivate = async () => {
         alert("Search!");
@@ -615,9 +631,10 @@ function Profile() {
                                         <h6><a href={`${p.postedBy.username}`}>{p.postedBy.username}</a></h6>
                                     </div>
                                     <div className="topright">
-                                        <button>
-                                            <i className="fa-solid fa-xmark"></i>
-                                        </button>
+                                        {profileOwner._id === user._id ?
+                                            (<button onClick={() => deletePost(p._id)}>
+                                                <i className="fa-solid fa-xmark"></i>
+                                            </button>) : (<></>)}
                                     </div>
                                 </div>
                                 <div className="imageContainer">

@@ -14,7 +14,7 @@ function Home() {
     const [currentPostId, setCurrentPostId] = useState(null);
     const [search, setSearch] = useState([]);
     const [query, setQuery] = useState('');
-    const [newPostImage, setNewPostImage] = useState("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2Fdefault%2FDefaut-Post.jpg?alt=media&token=450fede7-f0a1-41db-a6ba-a78ae8f720cd");
+    const [newPostImage, setNewPostImage] = useState("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Posts%2Fdefault%2Fdefault.jpg?alt=media&token=e134141d-b547-4eb8-927c-abb8d3c77312");
     const [newPostId, setNewPostId] = useState("");
     const [newPostCaption, setNewPostCaption] = useState("");
 
@@ -30,7 +30,7 @@ function Home() {
 
 
         console.log("Selected file:", file);
-        const storageRef = ref(storage, `Post/${user.username}/${newPostId}/${newPostId}`);
+        const storageRef = ref(storage, `Posts/${user.username}/${newPostId}/${newPostId}`);
 
         await uploadBytes(storageRef, file);
 
@@ -259,7 +259,7 @@ function Home() {
         const json = await data.json();
         console.log("Post Updated:", json);
         // Optionally, you can refresh the feed to show the new post
-        setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2FDefault%2FDefaut-Post.jpg?alt=media&token=ea458c51-a8ba-446c-8f43-4461707e2f54");
+        setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Posts%2Fdefault%2Fdefault.jpg?alt=media&token=e134141d-b547-4eb8-927c-abb8d3c77312");
         setNewPostId("");
         setNewPostCaption("");
         document.querySelector('.addPane').style.display = 'none';
@@ -282,7 +282,7 @@ function Home() {
             }
             console.log("Deleted Post:", json);
             setNewPostId("");
-            setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Post%2Fdefault%2FDefaut-Post.jpg?alt=media&token=450fede7-f0a1-41db-a6ba-a78ae8f720cd");
+            setNewPostImage("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/Posts%2Fdefault%2Fdefault.jpg?alt=media&token=e134141d-b547-4eb8-927c-abb8d3c77312");
             setNewPostCaption("");
         }
     }
