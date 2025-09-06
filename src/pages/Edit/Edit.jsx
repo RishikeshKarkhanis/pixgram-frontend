@@ -1,7 +1,7 @@
 import "./Edit.css";
 import { useRef, useEffect, useState } from 'react';
-import { ref, uploadBytes, getDownloadURL, getStorage, listAll, deleteObject } from "firebase/storage";
-import { storage } from "../../firebase.js";
+
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function Edit() {
 
@@ -88,7 +88,7 @@ function Edit() {
 
         console.log("Selected file:", file);
         setLoading(true);
-        const storageRef = ref(storage, `User/ProfilePictures/${username}/${username}`);
+        const storageRef = ref(storage, `${username}/Profile Pictures/${username}`);
 
         await uploadBytes(storageRef, file);
 

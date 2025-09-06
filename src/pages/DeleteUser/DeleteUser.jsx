@@ -30,17 +30,20 @@ function DeleteUser() {
 
         const deleteUser = async () => {
 
+            if(!uid) return;
+
             const response = await fetch("/users/delete/" + `${uid}`, { method: "DELETE" });
             const json = await response.json();
 
             if (response.ok) {
                 console.log("User Deleted: ", response);
                 const logoutResponse = await fetch("/users/logout", { method: "POST" });
+
                 if (logoutResponse.ok) {
                     console.log("User logged out");
 
                     const storage = getStorage();
-                    const folderRef = ref(storage, `${uid.username}`);
+                    const folderRef = ref(storage, `${user.username}`);
 
                     const res = await listAll(folderRef);
 
@@ -48,7 +51,10 @@ function DeleteUser() {
                     const deletePromises = res.items.map((itemRef) => deleteObject(itemRef));
                     await Promise.all(deletePromises);
 
-                    window.location.href = "/";
+                    console.log(`Deleted all files inside ${user.username}`);
+                    
+
+                    // window.location.href = "/";
                 }
             }
         }
