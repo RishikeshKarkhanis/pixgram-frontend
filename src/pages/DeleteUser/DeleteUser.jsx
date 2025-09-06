@@ -1,72 +1,69 @@
 import { useEffect, useState } from 'react';
-import { ref, getStorage, listAll, deleteObject } from "firebase/storage";
+import { getStorage, ref, listAll, deleteObject } from "firebase/storage";
 
 function DeleteUser() {
-
-    const [user, setUser] = useState("");
-    const [uid, setUid] = useState("");
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
             const response = await fetch("/users/currentUser");
             const json = await response.json();
-
             if (response.ok) {
-                console.log(response);
+                setUser(json);
             }
-
-            console.log("Fetched user:", json);
-            setUser(json);
-            setUid(json._id);
-        }
-
+        };
         fetchUserData();
     }, []);
 
+    // recursive delete function
+    const deleteFolderRecursive = async (folderRef) => {
+        const res = await listAll(folderRef);
+
+        // delete all files in current folder
+        await Promise.all(res.items.map((itemRef) => {
+            console.log("Deleting file:", itemRef.fullPath);
+            return deleteObject(itemRef);
+        }));
+
+        // recurse into subfolders
+        await Promise.all(res.prefixes.map((subfolderRef) => {
+            console.log("Descending into folder:", subfolderRef.fullPath);
+            return deleteFolderRecursive(subfolderRef);
+        }));
+    };
+
     useEffect(() => {
-        if (!uid) {
-            console.log("!uid");
-        };
+        if (!user) return;
 
         const deleteUser = async () => {
+            try {
+                const response = await fetch(`/users/delete/${user._id}`, { method: "DELETE" });
 
-            if(!uid) return;
+                if (response.ok) {
+                    console.log("User deleted from DB");
 
-            const response = await fetch("/users/delete/" + `${uid}`, { method: "DELETE" });
-            const json = await response.json();
+                    const logoutResponse = await fetch("/users/logout", { method: "POST" });
+                    if (logoutResponse.ok) {
+                        console.log("User logged out");
 
-            if (response.ok) {
-                console.log("User Deleted: ", response);
-                const logoutResponse = await fetch("/users/logout", { method: "POST" });
+                        const storage = getStorage();
+                        const userFolderRef = ref(storage, user.username); // gs://.../username/
 
-                if (logoutResponse.ok) {
-                    console.log("User logged out");
+                        await deleteFolderRecursive(userFolderRef);
 
-                    const storage = getStorage();
-                    const folderRef = ref(storage, `${user.username}`);
-
-                    const res = await listAll(folderRef);
-
-                    // delete each file inside the folder
-                    const deletePromises = res.items.map((itemRef) => deleteObject(itemRef));
-                    await Promise.all(deletePromises);
-
-                    console.log(`Deleted all files inside ${user.username}`);
-                    
-
-                    // window.location.href = "/";
+                        console.log(`✅ Deleted all Firebase files under ${user.username}/`);
+                        window.location.href = "/";
+                    }
                 }
+            } catch (err) {
+                console.error("Error deleting user:", err);
             }
-        }
+        };
 
         deleteUser();
-    }, [uid]);
+    }, [user]);
 
-    return (
-        <>
-
-        </>
-    );
+    return null;
 }
 
 export default DeleteUser;
