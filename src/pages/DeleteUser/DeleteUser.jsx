@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ref, getStorage, listAll, deleteObject } from "firebase/storage";
 
 function DeleteUser() {
 
@@ -37,6 +38,16 @@ function DeleteUser() {
                 const logoutResponse = await fetch("/users/logout", { method: "POST" });
                 if (logoutResponse.ok) {
                     console.log("User logged out");
+
+                    const storage = getStorage();
+                    const folderRef = ref(storage, `${uid.username}`);
+
+                    const res = await listAll(folderRef);
+
+                    // delete each file inside the folder
+                    const deletePromises = res.items.map((itemRef) => deleteObject(itemRef));
+                    await Promise.all(deletePromises);
+
                     window.location.href = "/";
                 }
             }

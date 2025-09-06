@@ -1,6 +1,6 @@
 import "./Edit.css";
 import { useRef, useEffect, useState } from 'react';
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, getStorage, listAll, deleteObject } from "firebase/storage";
 import { storage } from "../../firebase.js";
 
 function Edit() {

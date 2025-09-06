@@ -1,7 +1,7 @@
 import "./Profile.css";
 import { useRef, useEffect, useState, } from 'react';
 import { useParams } from 'react-router-dom';
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, listAll, deleteObject, getStorage } from "firebase/storage";
 import { storage } from "../../firebase.js";
 
 function Profile() {
@@ -393,14 +393,31 @@ function Profile() {
 
     }
 
-    const deletePost = async (postId) => {
+    const deletePost = async (postId, userId) => {
         try {
             const response = await fetch(`/posts/delete/${postId}`, { method: "DELETE" });
             const data = await response.json();
 
+            const uidResp = await fetch('/users/getuserbyid/' + userId);
+            const uid = await uidResp.json();
+
+            console.log(uid.username);
+
             if (response.ok) {
                 // remove the deleted post from state
                 setMyPost((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+
+                const storage = getStorage();
+                const folderRef = ref(storage, `${uid.username}/Posts/${postId}`);
+
+                const res = await listAll(folderRef);
+
+                // delete each file inside the folder
+                const deletePromises = res.items.map((itemRef) => deleteObject(itemRef));
+                await Promise.all(deletePromises);
+
+                console.log(`Deleted all files inside ${username}/Posts/${postId}`);
+
             } else {
                 console.error("Failed to delete:", data.error);
             }
@@ -632,7 +649,7 @@ function Profile() {
                                     </div>
                                     <div className="topright">
                                         {profileOwner._id === user._id ?
-                                            (<button onClick={() => deletePost(p._id)}>
+                                            (<button onClick={() => deletePost(p._id, p.postedBy._id)}>
                                                 <i className="fa-solid fa-xmark"></i>
                                             </button>) : (<></>)}
                                     </div>
