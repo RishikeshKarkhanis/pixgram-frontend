@@ -15,7 +15,8 @@ function Profile() {
     const [isPDropActive, setIsPDropActive] = useState(false);
     const [comment, setComment] = useState(null);
     const [currentPostId, setCurrentPostId] = useState(null);
-
+    const [search, setSearch] = useState([]);
+    const [query, setQuery] = useState('');
     const [newPostImage, setNewPostImage] = useState("https://firebasestorage.googleapis.com/v0/b/pixgram-469807.firebasestorage.app/o/default%2FPosts%2Fdefault%2Fdefault.jpg?alt=media&token=88af68e1-119b-426f-807e-e5f49e05dfb0");
     const [newPostId, setNewPostId] = useState("");
     const [newPostCaption, setNewPostCaption] = useState("");
@@ -100,6 +101,17 @@ function Profile() {
 
         fetchMyPostsData();
     }, [user]);
+
+    useEffect(() => {
+    const fetchSearchResult = setTimeout(async () => {
+        const response = await fetch(`/users/search?query=${query}`);
+        const data = await response.json();
+        setSearch(data);
+    }, 500);
+
+        return () => clearTimeout(fetchSearchResult);
+    }, [query]);
+
 
     useEffect(() => {
         const fetchFollowData = async () => {
@@ -331,6 +343,10 @@ function Profile() {
         }
     }
 
+    const cancelSearch = async () => {
+        document.querySelector('.searchPane').style.display = 'none';
+    }
+
     const goToProfile = async () => {
         window.location.href = "/" + user.username;
     }
@@ -427,7 +443,8 @@ function Profile() {
     };
 
     const searchBoxActivate = async () => {
-        alert("Search!");
+        // alert("Search!");
+        document.querySelector('.searchPane').style.display = 'block';
     }
 
     return (
@@ -567,6 +584,42 @@ function Profile() {
                                 <button onClick={submitPost}>Upload</button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="searchPane" style={{ display: "none" }}>
+                <div className="window">
+                    <div className="dialog">
+                        <div className="head">
+                            <h3>Search</h3>
+                            <button onClick={cancelSearch}>
+                                <i className="fa-solid fa-xmark fa-2x"></i>
+                            </button>
+                        </div>
+
+                        <div className="body">
+                            <div className="inputHolder">
+                                <input type="text" name="search" id="search"
+                                    onChange={(e) => { setQuery(e.target.value) }}
+                                    placeholder="Search" />
+                            </div>
+                            <div className="resultHolder">
+                                {search && search.length > 0 ? (
+                                    search.map((q) => (
+                                        <div key={q._id} className="result">
+                                            <p><a href={"/"+q.username}>{q.username}</a></p>
+                                            <img 
+                                                onClick={() => {window.location.href = "/" + q.username}} 
+                                                src={q.profilePicture} alt="UserProfile" />
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p></p>
+                                )}
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
