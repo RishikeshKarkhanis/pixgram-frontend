@@ -7,9 +7,10 @@ function Home() {
 
     const [user, setUser] = useState('');
     const [post, setPost] = useState(null);
-    const [myPost, setMyPost] = useState(null);
+    // const [myPost, setMyPost] = useState(null);
     const [profilePicture, setProfilePicture] = useState(null);
     const [isPDropActive, setIsPDropActive] = useState(false);
+    const [isNDropActive, setIsNDropActive] = useState(false);
     const [comment, setComment] = useState(null);
     const [currentPostId, setCurrentPostId] = useState(null);
     const [search, setSearch] = useState([]);
