@@ -110,6 +110,12 @@ function Home() {
             dropdown.style.display = 'none';
         }
         if (isPDropActive === false) {
+
+            if(isNDropActive === true){
+                setIsNDropActive(false);
+                document.querySelector('.notification-dropdown').style.display = 'none';
+            }
+
             setIsPDropActive(true);
             dropdown.style.display = 'flex';
         }
@@ -313,6 +319,12 @@ function Home() {
             dropdown.style.display = 'none';
         }
         if (isNDropActive === false) {
+
+            if(isPDropActive === true){
+                setIsPDropActive(false);
+                document.querySelector('.dropdown').style.display = 'none';
+            }
+
             setIsNDropActive(true);
             dropdown.style.display = 'flex';
         }
