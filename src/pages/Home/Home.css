@@ -71,6 +71,31 @@ body {
     color: #28a745;
 }
 
+.navbar .right .notification-navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 10px;
+    /* background-color: #28a745; */
+}
+
+.navbar .right .notification-navbar button {
+    height: 50px;
+    width: 50px;
+    border-radius: 360px;
+    border: none;
+    margin-top: -4px;
+    font-size: 21px;
+    background: none;
+    cursor: pointer;
+}
+
+.navbar .right .notification-navbar button:hover {
+    color: #28a745;
+}
+
 .navbar .right .profile {
     /* background-color: #28a745; */
 }
@@ -123,6 +148,46 @@ body {
 .dropdown ul li :hover {
     color: #28a745;
 }
+
+
+
+.notification-dropdown {
+    position: absolute;
+    right: 2px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    top: 60px;
+    width: 350px;
+    display: flex;
+    justify-content: center;
+    display: none;
+}
+
+
+.notification-dropdown ul {
+    text-decoration: none;
+    list-style: none;
+}
+
+.notification-dropdown ul li {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.notification-dropdown ul li a {
+    text-decoration: none;
+    list-style: none;
+    color: black;
+    cursor: pointer;
+    font-size: 21px;
+    /* background-color: aqua; */
+}
+
+.notification-dropdown ul li :hover {
+    color: #28a745;
+}
+
 
 .commentsPane {
     position: fixed;

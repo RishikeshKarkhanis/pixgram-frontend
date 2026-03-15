@@ -304,6 +304,20 @@ function Home() {
         document.querySelector('.searchPane').style.display = 'block';
     }
 
+    const toggleNotificationDropdown = async () => {
+
+        const dropdown = document.querySelector('.notification-dropdown');
+
+        if (isNDropActive === true) {
+            setIsNDropActive(false);
+            dropdown.style.display = 'none';
+        }
+        if (isNDropActive === false) {
+            setIsNDropActive(true);
+            dropdown.style.display = 'flex';
+        }
+    }
+
     return (
         <>
             <nav className="navbar">
@@ -318,6 +332,12 @@ function Home() {
                     <div className="search-navbar">
                         <button onClick={searchBoxActivate}>
                             <i className="fa-solid fa-magnifying-glass" style={{ fontSize: "21px" }}></i>
+                        </button>
+                    </div>
+
+                    <div className="notification-navbar">
+                        <button onClick={toggleNotificationDropdown}>
+                            <i className="fa-solid fa-bell" style={{ fontSize: "21px" }}></i>
                         </button>
                     </div>
 
@@ -337,6 +357,14 @@ function Home() {
                                     <a style={{ color: "red", cursor: "pointer" }} href="/logout">
                                         <i className="fa-solid fa-arrow-right-from-bracket"></i> Logout
                                     </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div className="notification-dropdown">
+                            <ul>
+                                <li>
+                                    <p>No new notifications.</p>
                                 </li>
                             </ul>
                         </div>
